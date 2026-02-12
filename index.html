@@ -227,8 +227,8 @@ var SOC_FS = {
 function getITRelation(m1,m2){
   var p=((m1[0]!==m2[0])?1:0)+""+((m1[1]!==m2[1])?1:0)+""+((m1[2]!==m2[2])?1:0)+""+((m1[3]!==m2[3])?1:0);
   switch(p){
-    case"0000":return"同一";case"1111":return"双対";case"1000":return"鏡像";case"0001":return"準同一";
-    case"1001":return"消滅";case"0111":return"活性化";case"1110":return"衝突";case"1101":return"準双対";
+    case"0000":return"同一";case"1110":return"双対";case"1000":return"鏡像";case"0001":return"準同一";
+    case"1001":return"消滅";case"0111":return"活性化";case"1111":return"衝突";case"1101":return"準双対";
     case"0010":return"同属";case"0100":return"共鳴";case"0110":return"超自我";case"1011":return"幻影";
     case"0011":case"0101":return _itBen(m1,m2);
     case"1010":case"1100":return _itSup(m1,m2);
@@ -267,54 +267,69 @@ function gk(t) {
 function calcLove(t1, t2) {
   if (!t1 || !t2) return null;
   var k1=gk(t1),k2=gk(t2),score=38,pros=[],cons=[],tips=[];
-  if ((BP[t1]&&BP[t1].indexOf(t2)>=0)||(BP[t2]&&BP[t2].indexOf(t1)>=0)){score+=28;pros.push("理論上のベストカップル — 互いに足りないものを自然に補い合える黄金の組み合わせ");}
-  /* E/I */
-  if(t1[0]===t2[0]){score+=6;pros.push("エネルギーの充電スタイルが一致しており、一緒にいて自然体でいられる安心感がある");}
-  else{score+=3;
-    cons.push("「一人になりたい」vs「一緒にいたい」で温度差が生まれやすい。E型が楽しそうに外出する姿にI型が疎外感を覚えたり、I型が引きこもる姿をE型が拒絶と受け取るケースが多い");
+  /* Golden pairs — consensus from multiple sources */
+  var goldenLove = ["INTJ-ENFP","ENFP-INTJ","INFJ-ENTP","ENTP-INFJ","INTP-ENTJ","ENTJ-INTP","INFP-ENFJ","ENFJ-INFP"];
+  if(goldenLove.indexOf(t1+"-"+t2)>=0){score+=25;pros.push("多くの相性研究で「最高の組み合わせ」に挙がるゴールデンペア。深い理解とワクワクする刺激が同時に得られる");}
+  /* Socionics-inspired complementary bonus (Japanese web consensus: 双対関係)
+     Pattern: E/I, S/N, T/F all different but J/P same = 完全補完ペア */
+  var isDualComplement = (t1[0]!==t2[0]) && (t1[1]!==t2[1]) && (t1[2]!==t2[2]) && (t1[3]===t2[3]);
+  if(isDualComplement){
+    score+=15;
+    pros.push("心理機能が完全に補い合う「補完関係」（双対）。互いの弱点を自然にカバーし合い、長く一緒にいるほど居心地の良さが深まるパートナーシップ");
+    tips.push("最初は「全く違うタイプ」と感じても、相手の得意なことを素直にリスペクトし任せる信頼関係を築くことで、唯一無二のパートナーになれる。違いを楽しむ好奇心が鍵");
+  }
+  /* E/I — opposite is often better in love (balance) */
+  if(t1[0]===t2[0]){score+=4;pros.push("エネルギーの充電スタイルが一致しており、一緒にいて自然体でいられる安心感がある");}
+  else{score+=7;pros.push("E型がI型を外の世界に連れ出し、I型がE型に内省の時間を与える。互いの世界を広げ合える補完関係");
     tips.push("E型は「黙って隣にいる時間」もI型にとっては最高の愛情表現だと理解する。I型は月に数回でも相手の社交イベントに参加する姿勢を見せるだけで関係が劇的に安定する");
   }
-  /* S/N */
-  if(t1[1]===t2[1]){score+=7;pros.push("世界の見方が近く、日常会話が自然と噛み合い深い対話に発展しやすい");}
-  else{score+=4;
+  /* S/N — same is MOST important in love (shared worldview) */
+  if(t1[1]===t2[1]){score+=10;pros.push("世界の見方が近く、日常会話から深い対話まで自然と噛み合う。恋愛の土台となる「分かり合える感覚」が強い");}
+  else{score+=2;
     cons.push("S型が「今日の夕飯どうする？」と具体的な話をしたい時にN型が「将来どこに住みたい？」と飛躍した話を始める——この会話のズレが日常的に蓄積してフラストレーションになりやすい");
     tips.push("S型は時々パートナーの夢や理想の話に付き合い、N型は話を具体的なアクションに落とし込む練習をする。「今日は夢の話タイム / 現実の話タイム」と切り替えるルールを作るのも効果的");
   }
-  /* T/F — most critical in love */
-  if(t1[2]===t2[2]){score+=10;pros.push("愛情表現のスタイルと期待するリアクションが似ているため、気持ちがストレートに伝わる");}
-  else{score+=2;
-    cons.push("T型が問題解決モードで「こうすればいいのに」とアドバイスすると、F型は「気持ちを理解してほしいだけなのに」と傷つく。逆にF型が感情的になるとT型は「論理的に話してほしい」とシャットダウンしてしまう、という悪循環に陥りやすい");
-    tips.push("T型は話を聞く時の最初の5分間は解決策を言わず「それは辛かったね」と共感に徹する訓練を。F型はT型の不器用なアドバイスの裏にある「相手を助けたい」という愛情に目を向ける。「今は聞いてほしいだけ／アドバイスが欲しい」を事前に伝える習慣も非常に有効");
+  /* T/F — less impact than expected; FF pairs do well, TF also fine */
+  if(t1[2]===t2[2]){score+=6;
+    if(t1[2]==="F"){pros.push("感情を共有し合える温かい関係。互いの気持ちに寄り添う力があり、深い絆を築きやすい");}
+    else{pros.push("論理的に話し合えるためケンカが建設的。問題が起きても冷静に解決できる安定感がある");}
   }
-  /* J/P */
-  if(t1[3]===t2[3]){score+=8;pros.push("生活リズム・計画の立て方・休日の過ごし方が合い、日常のストレスが少ない");}
-  else{score+=2;
-    cons.push("J型が「来月の旅行の予約を今日中にしよう」と言う横で、P型が「もっとギリギリでよくない？」と返す——この計画性のギャップが家事分担・金銭管理・子育て方針など生活の幅広い場面で繰り返し衝突の火種になりうる");
-    tips.push("J型はP型の「今決めなくてもいい」は怠慢ではなく「もっと良い選択肢が現れるかも」という最適化本能だと理解する。P型はJ型が安心できるよう、大枠の方向性だけでも早めに共有する。家事や金銭管理はJ型がリード、余暇の使い方はP型に委ねるといったゆるやかな分業がおすすめ");
+  else{score+=5;pros.push("T型の冷静さとF型の温かさのバランスで、互いにない視点を補い合える");
+    cons.push("T型が問題解決モードで「こうすればいいのに」とアドバイスすると、F型は「気持ちを理解してほしいだけなのに」と傷つく悪循環に陥りやすい");
+    tips.push("T型は話を聞く時の最初の5分間は解決策を言わず「それは辛かったね」と共感に徹する訓練を。F型は「今は聞いてほしいだけ／アドバイスが欲しい」を事前に伝える習慣も有効");
   }
-  if(k1.rel===k2.rel){score+=8;pros.push("人との距離感や愛情の示し方が似ており、無理なく心地よい関係を維持できる");}
-  else{score+=2;
-    cons.push("対人スタイルが異なるため、「愛している証拠」の見せ方に認識のズレが生まれやすい。片方は行動で示し、もう片方は言葉を求める——すれ違いの典型パターン");
-    tips.push("「5つの愛の言語（言葉・行動・贈り物・時間・スキンシップ）」のフレームワークを二人で共有し、互いが最も嬉しい愛情表現を明確にしておくと劇的に改善する");
+  /* J/P — opposite often works well in love (complement) */
+  if(t1[3]===t2[3]){score+=3;
+    if(t1[3]==="J"){pros.push("計画的で安定した生活リズムを共有でき、将来設計もスムーズに進む");}
+    else{pros.push("自由で柔軟な関係性。束縛しない信頼感があり、互いの個性を尊重できる");
+      cons.push("二人とも気ままなため、家事や将来の計画が後回しになりがち");
+      tips.push("生活の大枠（家事分担・お金の管理）だけはルール化しておくと、自由さを保ちつつ安定も得られる");
+    }
   }
-  if(k1.life===k2.life){score+=5;pros.push("人生の中で大切にするものが共通しており、長期的な関係が安定しやすい");}
+  else{score+=8;pros.push("J型が安定した土台を作り、P型が新鮮な刺激をもたらす。退屈しない安定感が手に入る");
+    tips.push("J型はP型の「今決めなくてもいい」は怠慢ではなく最適化本能だと理解する。P型はJ型が安心できるよう、大枠の方向性だけでも早めに共有する。家事はJ型リード、余暇はP型に委ねるといったゆるやかな分業がおすすめ");
+  }
+  if(k1.rel===k2.rel){score+=6;pros.push("人との距離感や愛情の示し方が似ており、無理なく心地よい関係を維持できる");}
+  else{score+=2;
+    cons.push("対人スタイルが異なるため、「愛している証拠」の見せ方に認識のズレが生まれやすい");
+    tips.push("「5つの愛の言語（言葉・行動・贈り物・時間・スキンシップ）」を二人で共有し、互いが最も嬉しい愛情表現を明確にしておくと劇的に改善する");
+  }
+  if(k1.life===k2.life){score+=4;pros.push("人生の中で大切にするものが共通しており、長期的な関係が安定しやすい");}
   if(k1.grp===k2.grp){score+=4;pros.push("趣味や友人グループの傾向が合い、共通の楽しみを見つけやすい");}
   var diff=0;for(var i=0;i<4;i++){if(t1[i]!==t2[i])diff++;}
-  if(diff===2){score+=5;pros.push("程よい違いが恋愛にスパイスを加え、長く新鮮さを保てる");}
-  else if(diff>=3){score+=2;
-    cons.push("認知機能の違いが多く、「普通こうするでしょ？」の『普通』の定義が根本的に違う。無意識の期待のズレが日常的にストレスを生みやすい");
+  if(diff===4){score-=10;
+    cons.push("4つの軸が全て逆の組み合わせ。価値観やコミュニケーションが根本的に異なり、「普通こうするでしょ？」の定義が全く違うため衝突が頻発しやすい");
     tips.push("「理解しよう」という姿勢そのものが最大の愛情表現。定期的に二人の時間を確保し、相手の世界観を聞く「デブリーフィング・デート」を習慣にすると、違いを強みに変えていける");
   }
-  else{score+=3;}
-  score=Math.min(97,Math.max(25,score));
-  if(t1===t2){score=75;
+  score=Math.min(97,Math.max(20,score));
+  if(t1===t2){score=72;
     pros=["互いを完全に理解できる鏡のような存在。言葉にしなくても気持ちが通じ合い、価値観の衝突がほぼ起こらない安心感がある"];
     cons=["似すぎてマンネリ化しやすく、関係に新鮮な刺激が不足しがち。互いの弱点も共通しているため、同じ問題に二人ともハマりやすい"];
     tips=["あえて普段やらないジャンルの体験（アウトドア・アート・スポーツ等）を一緒に試す。また、互いの弱点を補うために第三者（友人・メンター）との交流を意識的に増やすと関係がさらに深まる"];
   }
   if(pros.length===0)pros.push("異なる魅力を持つ刺激的なカップル — 互いの世界を広げ合える可能性を秘めている");
-  if(cons.length===0)cons.push("価値観の違いを「面白い」と思えるかどうかが関係の長続きの鍵。違いを欠点ではなく多様性として受け入れるマインドセットが大切");
-  if(tips.length===0)tips.push("互いの「当たり前」が違うことを前提に、好奇心を持って相手の内面を探索し続ける。定期的に「最近嬉しかったこと・嫌だったこと」を共有する時間を作ると信頼が深まる");
+  if(cons.length===0)cons.push("価値観の違いを「面白い」と思えるかどうかが関係の長続きの鍵");
+  if(tips.length===0)tips.push("互いの「当たり前」が違うことを前提に、好奇心を持って相手の内面を探索し続ける");
   return {score:score,pros:pros,cons:cons,tips:tips};
 }
 
@@ -322,78 +337,99 @@ function calcLove(t1, t2) {
 function calcWork(t1, t2) {
   if (!t1 || !t2) return null;
   var k1=gk(t1),k2=gk(t2),score=40,pros=[],cons=[],tips=[];
-  var wb1=WK[t1],wb2=WK[t2];
-  if((wb1&&wb1.bp.indexOf(t2)>=0)||(wb2&&wb2.bp.indexOf(t1)>=0)){score+=22;pros.push("仕事上の理想的パートナー — スキルの相互補完で1+1が3以上になる組み合わせ");}
-  if((wb1&&wb1.wm===t2)||(wb2&&wb2.wm===t1)){score-=10;
-    cons.push("仕事の進め方が根本的に異なり、意識的な歩み寄りがないと生産性が落ちる組み合わせ。互いのやり方に「なぜそうするの？」とストレスを感じやすく、放置すると信頼関係の毀損に繋がる");
-    tips.push("ワーストマッチでも役割を明確に分け、互いの領域に口を出さないルールを設けると協働は可能。週1回の短い振り返りMTGで認識を合わせ、摩擦の芽を早期に摘むことが重要");
+  /* Work golden pairs — research consensus: complementary professional skills */
+  var goldenWork = ["ENTJ-INTP","INTP-ENTJ","INTJ-ENTJ","ENTJ-INTJ","ENTP-INTJ","INTJ-ENTP","ENFJ-INFP","INFP-ENFJ","ESTJ-ISFP","ISFP-ESTJ","ISTJ-ESFP","ESFP-ISTJ"];
+  if(goldenWork.indexOf(t1+"-"+t2)>=0){score+=20;pros.push("仕事上の理想的パートナー — 互いのスキルが完璧に噛み合い、1+1が3以上になるゴールデンペア");}
+  /* Socionics-inspired complementary bonus for work */
+  var isDualComplement = (t1[0]!==t2[0]) && (t1[1]!==t2[1]) && (t1[2]!==t2[2]) && (t1[3]===t2[3]);
+  if(isDualComplement){
+    score+=10;
+    pros.push("心理機能が完全に補完し合い、互いの盲点を自然にカバーできるチーム構成。ビジョンと実行、分析と共感のバランスに優れ、死角のない協力体制を築ける");
+    tips.push("役割分担を明確にし、相手の得意領域を信頼して任せ切ることで最大の成果が生まれる。「自分ならこうする」を押し付けず、異なるアプローチを尊重する姿勢が重要");
   }
-  /* J/P — deadline culture */
+  /* T/F — MOST critical in work (decision-making alignment) */
+  if(t1[2]===t2[2]){
+    if(t1[2]==="T"){score+=10;pros.push("論理的な議論でスピーディーに意思決定でき、感情的なバイアスに流されにくい");
+      cons.push("二人とも論理重視のため、チームメンバーやクライアントの感情面への配慮が不足しがち");
+      tips.push("フィードバック前に「相手はこれを聞いてどう感じるか」を5秒だけ考える習慣を。論理的に正しいことと伝え方が適切であることは別問題");
+    }
+    else{score+=7;pros.push("チームの雰囲気やメンバーのモチベーション管理を重視した温かいチーム運営ができる");
+      cons.push("二人とも感情面を重視するため、厳しい判断（人事・予算削減・方針転換）を先送りにしがち");
+      tips.push("データや数字を判断の根拠として明示するルールを設ける。「感情と論理、両方のレンズで見る」チェックリストを重要な意思決定時に参照する習慣を");
+    }
+  }else{score+=4;pros.push("T型の論理的分析とF型の共感的配慮のバランスで、多角的な意思決定ができる");
+    cons.push("T型の率直なフィードバックをF型が「冷たい」と感じたり、F型の配慮をT型が「回りくどい」と感じる場面が起きがち");
+    tips.push("T型はフィードバック時に「まず良い点→改善点→応援」のサンドイッチ構造を。F型は「結論を先に、理由を添える」練習を。互いのスタイルの違いをチーム内で公開的に共有すると摩擦が大幅に減る");
+  }
+  /* J/P — very important for work (project management style) */
   if(t1[3]===t2[3]){
     if(t1[3]==="J"){score+=12;pros.push("計画・進捗管理の価値観が一致し、プロジェクトの納期遵守が盤石。安定した成果を出し続けられる");}
-    else{score+=6;pros.push("柔軟な発想で互いのアイデアを膨らませ、イノベーティブなアウトプットが生まれやすい");
+    else{score+=5;pros.push("柔軟な発想で互いのアイデアを膨らませ、イノベーティブなアウトプットが生まれやすい");
       cons.push("二人ともP型のため、締切管理やタスクの収束が甘くなりがち。「誰かがやるだろう」と思っていたら誰もやっていなかった、というリスクが常にある");
-      tips.push("プロジェクト開始時に必ず中間マイルストーンを設定し、二人のうちどちらかが明示的にスケジュール管理役を担う宣言をする。ツール（Trello等）の導入も効果的");
+      tips.push("プロジェクト開始時に必ず中間マイルストーンを設定し、どちらかが明示的にスケジュール管理役を担う。ツール（Trello等）の導入も効果的");
     }
-  }else{score+=8;pros.push("J型の緻密な計画力とP型の柔軟な対応力で、想定内・想定外の両方に強いチーム");
-    cons.push("J型が「予定通りに進めたい」と思う場面でP型が方向転換を提案し、互いにフラストレーションが溜まることがある。J型は予定変更をストレスに感じ、P型は融通の利かなさにイライラする");
-    tips.push("J型がマイルストーンの大枠を設定し、各マイルストーン内の進め方はP型に裁量を委ねる二段階方式が最も効果的。J型は「計画変更＝失敗ではない」、P型は「大枠の期限は守る」を互いのルールに");
+  }else{score+=7;pros.push("J型の緻密な計画力とP型の柔軟な対応力で、想定内・想定外の両方に強いチーム");
+    cons.push("J型が「予定通りに進めたい」場面でP型が方向転換を提案し、互いにフラストレーションが溜まることがある");
+    tips.push("J型がマイルストーンの大枠を設定し、各マイルストーン内の進め方はP型に裁量を委ねる二段階方式が最も効果的");
   }
-  /* T/F — decision making */
-  if(t1[2]===t2[2]){
-    if(t1[2]==="T"){score+=7;pros.push("論理的な議論でスピーディーに意思決定でき、感情的なバイアスに流されにくい");
-      cons.push("二人とも論理重視のため、チームメンバーやクライアントの感情面への配慮が不足しがち。正論だが言い方がキツい、という評価を受けやすい");
-      tips.push("フィードバックや提案を行う前に「相手はこれを聞いてどう感じるか」を5秒だけ考える習慣をつける。論理的に正しいことと、伝え方が適切であることは別問題");
+  /* S/N — complement valued in work (vision + execution) */
+  var sameGroup = k1.grp === k2.grp;
+  if(t1[1]===t2[1]){
+    if(t1[1]==="N"){score+=5;pros.push("イノベーティブな企画やコンセプトが次々と生まれるクリエイティブなペア");
+      cons.push("アイデアは豊富だが実装フェーズの詰めが甘くなりがち。実現可能性やコストの検証を後回しにするリスク");
+      tips.push("アイデア出しと実行計画のフェーズを明確に分ける。実務力のあるS型メンバーを1人加えると完璧な体制に");
     }
-    else{score+=6;pros.push("チームの雰囲気やメンバーのモチベーション管理を重視した温かいチーム運営ができる");
-      cons.push("二人とも感情面を重視するため、厳しい判断（人事・予算削減・方針転換）を先送りにしがち。「嫌われたくない」が意思決定のボトルネックになるリスク");
-      tips.push("データや数字を判断の根拠として明示するルールを設ける。「感情と論理、両方のレンズで見る」チェックリストを作成し、重要な意思決定時に必ず参照する習慣をつけると改善できる");
+    else{score+=6;pros.push("現場の実務力が高く、確実な遂行力でプロジェクトを着実にゴールまで導ける");
+      cons.push("「前例通り」に固執しやすく、市場変化への対応や新規事業の立ち上げが苦手になりがち");
+      tips.push("月1回は「そもそもこのやり方は最適か？」を問い直すレビューを。N型人材との勉強会で視野を広げるインプットを意識的に");
     }
-  }else{score+=9;pros.push("T型の論理的分析とF型の共感的配慮のバランスで、質の高い意思決定ができる");
-    cons.push("T型の率直なフィードバックをF型が「冷たい」と感じたり、F型の配慮をT型が「回りくどい」と感じる場面が起きがち。コミュニケーションスタイルの違いが信頼構築の妨げになることもある");
-    tips.push("T型はフィードバック時に「まず良い点→改善点→応援」のサンドイッチ構造を意識する。F型は「結論を先に言い、理由を添える」練習をする。互いのスタイルの違いをチーム内で公開的に共有しておくと摩擦が大幅に減る");
+  }else{score+=9;pros.push("N型がビジョンとコンセプトを描き、S型が着実に実装する——仕事における理想的な分業体制");
+    tips.push("N型はアイデアを具体例と共に説明する。S型は「それは現実的に無理」と即否定せず、まず可能性を検討してからフィードバックする。この相互リスペクトが黄金コンビの鍵");
   }
-  /* E/I — communication style */
+  /* E/I — complement works well in work (role division) */
   if(t1[0]===t2[0]){
     if(t1[0]==="E"){score+=4;pros.push("プレゼン・交渉の場で圧倒的な推進力を発揮する営業力抜群のコンビ");
-      cons.push("「話して考える」二人が集まると会議が長くなり、結論が出ないまま次の話題に移るリスク。深い分析や内省の時間が不足し、表面的な施策に終わりがち");
-      tips.push("会議には必ずアジェンダとタイムキーパーを設定。「発散タイム15分→収束タイム10分」のように構造化し、分析が必要な案件は各自で持ち帰って検討する時間を確保する");
+      cons.push("「話して考える」二人が集まると会議が長くなり結論が出ないまま次の話題に移るリスク");
+      tips.push("会議には必ずアジェンダとタイムキーパーを。「発散15分→収束10分」のように構造化する");
     }
     else{score+=4;pros.push("深い分析と集中作業で質の高いアウトプットを安定的に生み出せる");
-      cons.push("二人とも対外発信やネットワーキングが苦手なため、チームの成果が組織内外に伝わりにくい。「いい仕事をしているのに評価されない」状況に陥りやすい");
-      tips.push("成果の可視化と発信を意識的にタスク化する。週報・月報のフォーマットを作り交代で担当する。可能であればE型のメンバーを巻き込んでプレゼンや社内広報を任せるのもよい");
+      cons.push("対外発信やネットワーキングが苦手なため、成果が組織内外に伝わりにくい");
+      tips.push("成果の可視化と発信を意識的にタスク化する。可能であればE型メンバーを巻き込んでプレゼンや社内広報を任せる");
     }
   }else{score+=7;pros.push("E型が対外折衝・プレゼンを、I型が深い分析・品質管理を担う自然な役割分担が生まれる");
-    tips.push("I型は考えがまとまる前でも途中段階を共有することを意識する。E型はI型が集中している時間を中断しない配慮を。非同期コミュニケーション（Slack/ドキュメント）とリアルタイム会話を使い分けるとスムーズ");
+    tips.push("I型は考えがまとまる前でも途中段階を共有することを意識。E型はI型の集中時間を中断しない配慮を。非同期ツールとリアルタイム会話の使い分けがスムーズ");
   }
-  /* S/N — strategy vs execution */
-  if(t1[1]===t2[1]){
-    if(t1[1]==="N"){score+=4;pros.push("イノベーティブな企画やコンセプトが次々と生まれるクリエイティブなペア");
-      cons.push("アイデアは豊富だが実装フェーズの詰めが甘くなりがち。コンセプトの美しさに酔って、実現可能性やコストの検証を後回しにするリスクがある");
-      tips.push("アイデア出しと実行計画のフェーズを明確に分ける。「このアイデアを実現するために必要なリソース・期間・コスト」を具体的に洗い出すチェックポイントを必ず設ける。実務力のあるS型メンバーを1人加えると完璧な体制に");
-    }
-    else{score+=5;pros.push("現場の実務力が高く、確実な遂行力でプロジェクトを着実にゴールまで導ける");
-      cons.push("「前例通り」「実績があるやり方」に固執しやすく、市場変化への対応や新規事業の立ち上げが苦手。ゆでガエル現象に陥るリスクがある");
-      tips.push("月1回は「そもそもこのやり方は最適か？」を問い直すレビューの機会を作る。他部署や外部のN型人材との勉強会やブレストを定期的に実施し、視野を広げるインプットを意識的に取り入れる");
-    }
-  }else{score+=8;pros.push("N型がビジョンとコンセプトを描き、S型が着実に実装する理想的な分業体制");
-    tips.push("N型はアイデアを出す際に「なぜこれが必要か」を具体例と共に説明する。S型は「それは現実的に無理」と即否定せず、まず可能性を検討してからフィードバックする。この相互リスペクトが黄金コンビの鍵");
+  /* Same temperament group bonus (NT-NT, SJ-SJ etc) */
+  if(sameGroup){score+=4;pros.push("仕事の優先順位や価値基準が近く、コミュニケーションコストが低い");}
+  /* NT+SJ complement bonus (strategy + execution) */
+  var grp1 = t1[1]+t1[2], grp2 = t2[1]+t2[2];
+  if((grp1==="NT"&&(grp2==="SJ"||grp2==="SF"))||(grp2==="NT"&&(grp1==="SJ"||grp1==="SF"))){
+    score+=3;pros.push("戦略思考と実務遂行の理想的な補完関係。ビジョンを確実に形にできる");
   }
-  if(k1.talent===k2.talent){score+=2;
-    cons.push("同じ才能タイプのため得意領域が被りやすく、成果の差が直接比較されて競争関係に陥るリスクがある。縄張り意識が生まれると協力関係が崩れやすい");
-    tips.push("担当領域を明確に分けて「この分野はあなた、この分野は私」と線引きする。互いの専門性の違いを見出して棲み分けを意識するか、完全に異なるプロジェクトにアサインされるのが理想的");
+  if((grp1==="NF"&&grp2==="ST")||(grp2==="NF"&&grp1==="ST")){
+    score+=2;pros.push("理念と実務のバランス。組織の方向性と日々のオペレーションの両方をカバーできる");
   }
-  else{score+=5;pros.push("異なる才能タイプでチームの死角を埋め合い、多角的なアプローチが可能に");}
-  if(k1.grp===k2.grp){score+=3;pros.push("仕事の優先順位や価値基準が近く、コミュニケーションコストが低い");}
-  score=Math.min(97,Math.max(25,score));
+  /* Talent compatibility */
+  if(k1.talent===k2.talent){score+=1;
+    cons.push("同じ才能タイプのため得意領域が被りやすく、成果の差が直接比較されて競争関係に陥るリスク");
+    tips.push("担当領域を明確に分けて棲み分けを意識する。完全に異なるプロジェクトにアサインされるのも一案");
+  }
+  else{score+=4;pros.push("異なる才能タイプでチームの死角を埋め合い、多角的なアプローチが可能に");}
+  /* 4 letters all different = worst work match */
+  var diff=0;for(var i=0;i<4;i++){if(t1[i]!==t2[i])diff++;}
+  if(diff===4){score-=8;
+    cons.push("仕事の進め方・意思決定・コミュニケーションの全てが根本的に異なる。意識的な歩み寄りがないと生産性が大きく低下するリスク");
+    tips.push("役割を明確に分け、互いの領域に口を出さないルールを設ける。週1回の短い振り返りMTGで認識を合わせ、摩擦の芽を早期に摘むことが重要");
+  }
+  score=Math.min(97,Math.max(20,score));
   if(t1===t2){score=70;
-    pros=["意思疎通がスムーズで信頼関係を築きやすい — 阿吽の呼吸で動ける。互いの思考プロセスが理解できるため、説明コストが圧倒的に低い"];
-    cons=["視点が偏り盲点が生まれやすく、同じミスを二人とも見落とす危険性がある。また、「分かり合えるからこそ」甘えが生じ、成長の刺激が不足しがち"];
-    tips=["異なるタイプの第三者をチームに加えることで突破口が開ける。定期的に外部レビュー（他部署の意見、メンターのフィードバック）を取り入れ、自分たちの盲点を意識的にチェックする仕組みを作る"];
+    pros=["意思疎通がスムーズで信頼関係を築きやすい — 阿吽の呼吸で動ける。説明コストが圧倒的に低い"];
+    cons=["視点が偏り盲点が生まれやすく、同じミスを二人とも見落とす危険性がある"];
+    tips=["異なるタイプの第三者をチームに加えることで突破口が開ける。定期的に外部レビューを取り入れ盲点をチェックする仕組みを作る"];
   }
   if(pros.length===0)pros.push("異なるスキルセットで幅広い課題に対応でき、互いの弱みをカバーし合える");
-  if(cons.length===0)cons.push("仕事の進め方にギャップがあるため、プロジェクト初期段階での擦り合わせが特に重要。暗黙の期待を言語化してすり合わせないと、後半で大きなすれ違いが生じる");
-  if(tips.length===0)tips.push("互いの強みリストを共有し、得意分野で明確に分業する。週次で短いチェックインMTG（15分）を設け、進捗と課題を共有する習慣をつけると生産性が劇的に向上する");
+  if(cons.length===0)cons.push("仕事の進め方にギャップがあるため、プロジェクト初期段階での擦り合わせが特に重要");
+  if(tips.length===0)tips.push("互いの強みリストを共有し得意分野で分業する。週次15分チェックインMTGで進捗と課題を共有する習慣をつけると生産性が劇的に向上");
   return {score:score,pros:pros,cons:cons,tips:tips};
 }
 
@@ -773,7 +809,7 @@ function CompatResult({data,t1,t2,mode}) {
           <span style={{fontSize:18}}>{itMeta.emoji}</span>
           <div>
             <p style={{fontFamily:F.b,fontSize:11,color:itMeta.color,fontWeight:700,margin:0}}>{itRel}<span style={{fontFamily:F.h,fontSize:9,color:itMeta.color+"aa",fontWeight:500,marginLeft:6}}>{itMeta.en}</span></p>
-            <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:0}}>{"★".repeat(itMeta.score)+"☆".repeat(5-itMeta.score)} ソシオニクス相性</p>
+            <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:0}}>{"★".repeat(itMeta.score)+"☆".repeat(5-itMeta.score)} タイプ間関係</p>
           </div>
         </div>
       </div>
@@ -1709,6 +1745,177 @@ function TeamAnalysisTabs({strengths, weaknesses, gaps}) {
   );
 }
 
+function teamCompatScore(a,b) {
+  if(a===b) return {score:3,label:"同一タイプ",emoji:"🪞",color:"#6B7280",desc:"同じ視点で深く共感し合える。ただし盲点も共有しやすい"};
+  /* Golden pairs — multiple sources agree these are best */
+  var golden = ["INTJ-ENFP","INTP-ENTJ","INFJ-ENTP","INFP-ENFJ","ENFP-INTJ","ENTJ-INTP","ENTP-INFJ","ENFJ-INFP"];
+  var k = a+"-"+b;
+  if(golden.indexOf(k)>=0) return {score:5,label:"ゴールデンペア",emoji:"💎",color:"#2563EB",desc:"互いの強みと弱みが見事に噛み合う理想的な組み合わせ"};
+
+  var sEI=a[0]===b[0], sSN=a[1]===b[1], sTF=a[2]===b[2], sJP=a[3]===b[3];
+  var diff=(!sEI?1:0)+(!sSN?1:0)+(!sTF?1:0)+(!sJP?1:0);
+
+  /* All 4 different — universally rated as most challenging */
+  if(diff===4) return {score:1,label:"要注意ペア",emoji:"💥",color:"#DC2626",desc:"全ての軸が真逆で、価値観やコミュニケーションに大きなギャップが生じやすい"};
+
+  /* Same group: share S/N and T/F (NT-NT, NF-NF, ST-ST, SF-SF) */
+  if(sSN && sTF) return {score:4,label:"同じグループ",emoji:"🤝",color:"#10B981",desc:"思考パターンや価値観が近く、自然な協力関係を築きやすい"};
+
+  /* Share 3 of 4 letters — very similar */
+  if(diff===1) return {score:4,label:"よく似た仲間",emoji:"👥",color:"#8B5CF6",desc:"多くの共通点があり居心地が良い。小さな違いが良い刺激になる"};
+
+  /* Near-golden: share S/N + opposite E/I + share J/P (e.g. INTJ-ENTP) */
+  if(sSN && !sEI && sJP) return {score:4,label:"補完ペア",emoji:"⚡",color:"#F59E0B",desc:"共通の土台がありつつ、E/Iの違いがバランスを生む好相性"};
+
+  /* Share S/N only — decent base */
+  if(sSN) return {score:3,label:"まずまず",emoji:"💼",color:"#64748B",desc:"情報の捉え方が同じなので基本的な会話は通じやすい"};
+
+  /* Different S/N but share T/F — some common ground */
+  if(sTF && diff<=2) return {score:2,label:"努力が必要",emoji:"🌙",color:"#A78BFA",desc:"判断基準は近いが、物事の捉え方が異なりすれ違いが起きやすい"};
+
+  /* Different S/N, different T/F but not all 4 — tough */
+  return {score:2,label:"摩擦が多め",emoji:"⚔️",color:"#EF4444",desc:"価値観や優先順位の違いが大きく、意識的な歩み寄りが必要"};
+}
+
+function TeamCompatibility({members}) {
+  /* Calculate all unique pairs */
+  var pairs = [];
+  for(var i=0;i<members.length;i++){
+    for(var j=i+1;j<members.length;j++){
+      var result = teamCompatScore(members[i],members[j]);
+      pairs.push({a:members[i],b:members[j],result:result});
+    }
+  }
+
+  /* Team chemistry score: average of pair scores mapped to 100 */
+  var totalScore = pairs.reduce(function(s,p){return s+p.result.score;},0);
+  var avgScore = pairs.length > 0 ? totalScore / pairs.length : 3;
+  var chemScore = Math.round(avgScore / 5 * 100);
+  var chemColor = chemScore >= 75 ? "#33b98a" : chemScore >= 50 ? "#eab308" : "#f97316";
+  var chemLabel = chemScore >= 80 ? "最高のケミストリー" : chemScore >= 65 ? "良好なチームワーク" : chemScore >= 50 ? "まずまずの相性" : "摩擦が多い構成";
+
+  /* Sort: best first */
+  var sorted = pairs.slice().sort(function(a,b){return b.result.score - a.result.score;});
+  var best = sorted.filter(function(p){return p.result.score >= 4;});
+  var worst = sorted.filter(function(p){return p.result.score <= 1;});
+
+  /* Score label */
+  function scoreStars(score) {
+    var stars = "";
+    for(var i=0;i<5;i++) stars += i < score ? "★" : "☆";
+    return stars;
+  }
+
+  return (
+    <div>
+      {/* Chemistry Score Banner */}
+      <div style={{padding:16,borderRadius:14,background:"rgba(0,0,0,0.15)",border:"1px solid rgba(255,255,255,0.06)",marginBottom:16,display:"flex",alignItems:"center",gap:14}}>
+        <div style={{position:"relative",width:64,height:64,flexShrink:0}}>
+          <svg width={64} height={64} viewBox="0 0 64 64">
+            <circle cx={32} cy={32} r={27} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={5} />
+            <circle cx={32} cy={32} r={27} fill="none" stroke={chemColor} strokeWidth={5}
+              strokeDasharray={2*Math.PI*27} strokeDashoffset={2*Math.PI*27*(1-chemScore/100)}
+              strokeLinecap="round" transform="rotate(-90 32 32)" style={{transition:"stroke-dashoffset 0.8s ease"}} />
+          </svg>
+          <div style={{position:"absolute",top:0,left:0,width:64,height:64,display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <span style={{fontFamily:F.h,fontSize:18,fontWeight:800,color:chemColor}}>{chemScore}</span>
+          </div>
+        </div>
+        <div style={{flex:1}}>
+          <p style={{fontFamily:F.b,fontSize:13,color:chemColor,fontWeight:700,margin:"0 0 4px"}}>チームケミストリー: {chemLabel}</p>
+          <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:0,lineHeight:1.5}}>
+            {pairs.length}組のペアを分析。{best.length > 0 ? "好相性ペアが"+best.length+"組" : ""}{best.length > 0 && worst.length > 0 ? "、" : ""}{worst.length > 0 ? "要注意ペアが"+worst.length+"組" : ""}
+            {best.length === 0 && worst.length === 0 ? "全体的にバランスの取れた相性です。" : "あります。"}
+          </p>
+        </div>
+      </div>
+
+      {/* Best pairs highlight */}
+      {best.length > 0 ? (
+        <div style={{marginBottom:12}}>
+          <p style={{fontFamily:F.b,fontSize:10,color:"#33b98a",fontWeight:700,margin:"0 0 8px"}}>🌟 好相性ペア</p>
+          {best.map(function(p,i){
+            var gcA = GC[GRP[p.a]], gcB = GC[GRP[p.b]];
+            return (
+              <div key={i} style={{padding:12,borderRadius:12,background:"rgba(51,185,138,0.05)",border:"1px solid rgba(51,185,138,0.12)",marginBottom:6,display:"flex",alignItems:"center",gap:10}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0}}>
+                  <Avatar type={p.a} size={24} />
+                  <span style={{fontFamily:F.h,fontSize:10,color:gcA,fontWeight:700}}>{p.a}</span>
+                </div>
+                <div style={{display:"flex",flexDirection:"column",alignItems:"center",flex:0,flexShrink:0}}>
+                  <span style={{fontSize:14}}>{p.result.emoji}</span>
+                  <span style={{fontFamily:F.h,fontSize:8,color:p.result.color,fontWeight:700}}>{p.result.score}/5</span>
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0}}>
+                  <Avatar type={p.b} size={24} />
+                  <span style={{fontFamily:F.h,fontSize:10,color:gcB,fontWeight:700}}>{p.b}</span>
+                </div>
+                <div style={{flex:1,minWidth:0,marginLeft:4}}>
+                  <p style={{fontFamily:F.b,fontSize:9,color:p.result.color,fontWeight:700,margin:"0 0 2px"}}>{p.result.label}</p>
+                  <p style={{fontFamily:F.b,fontSize:8,color:S.dm,margin:0,lineHeight:1.5}}>{p.result.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
+
+      {/* Worst pairs warning */}
+      {worst.length > 0 ? (
+        <div style={{marginBottom:12}}>
+          <p style={{fontFamily:F.b,fontSize:10,color:"#ef4444",fontWeight:700,margin:"0 0 8px"}}>⚠️ 要注意ペア</p>
+          {worst.map(function(p,i){
+            var gcA = GC[GRP[p.a]], gcB = GC[GRP[p.b]];
+            return (
+              <div key={i} style={{padding:12,borderRadius:12,background:"rgba(239,68,68,0.05)",border:"1px solid rgba(239,68,68,0.12)",marginBottom:6,display:"flex",alignItems:"center",gap:10}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0}}>
+                  <Avatar type={p.a} size={24} />
+                  <span style={{fontFamily:F.h,fontSize:10,color:gcA,fontWeight:700}}>{p.a}</span>
+                </div>
+                <div style={{display:"flex",flexDirection:"column",alignItems:"center",flex:0,flexShrink:0}}>
+                  <span style={{fontSize:14}}>{p.result.emoji}</span>
+                  <span style={{fontFamily:F.h,fontSize:8,color:p.result.color,fontWeight:700}}>{p.result.score}/5</span>
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:4,flexShrink:0}}>
+                  <Avatar type={p.b} size={24} />
+                  <span style={{fontFamily:F.h,fontSize:10,color:gcB,fontWeight:700}}>{p.b}</span>
+                </div>
+                <div style={{flex:1,minWidth:0,marginLeft:4}}>
+                  <p style={{fontFamily:F.b,fontSize:9,color:p.result.color,fontWeight:700,margin:"0 0 2px"}}>{p.result.label}</p>
+                  <p style={{fontFamily:F.b,fontSize:8,color:S.dm,margin:0,lineHeight:1.5}}>{p.result.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
+
+      {/* All pairs matrix */}
+      <div>
+        <p style={{fontFamily:F.b,fontSize:10,color:S.dm,fontWeight:700,margin:"0 0 8px"}}>📋 全ペア一覧</p>
+        {sorted.map(function(p,i){
+          var gcA = GC[GRP[p.a]], gcB = GC[GRP[p.b]];
+          return (
+            <div key={i} style={{padding:"8px 10px",borderRadius:10,background:p.result.color+"08",border:"1px solid "+p.result.color+"15",marginBottom:4,display:"flex",alignItems:"center",gap:8}}>
+              <div style={{display:"flex",alignItems:"center",gap:3,minWidth:70}}>
+                <Avatar type={p.a} size={18} />
+                <span style={{fontFamily:F.h,fontSize:9,color:gcA,fontWeight:600}}>{p.a}</span>
+              </div>
+              <span style={{fontSize:10,flexShrink:0}}>{p.result.emoji}</span>
+              <div style={{display:"flex",alignItems:"center",gap:3,minWidth:70}}>
+                <Avatar type={p.b} size={18} />
+                <span style={{fontFamily:F.h,fontSize:9,color:gcB,fontWeight:600}}>{p.b}</span>
+              </div>
+              <span style={{fontFamily:F.b,fontSize:9,color:p.result.color,fontWeight:700,flex:1}}>{p.result.label}</span>
+              <span style={{fontFamily:F.h,fontSize:8,color:p.result.color,fontWeight:700,letterSpacing:"1px"}}>{scoreStars(p.result.score)}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function TeamTab() {
   var membersState = useState([]);
   var members = membersState[0], setMembers = membersState[1];
@@ -1787,6 +1994,13 @@ function TeamTab() {
             {/* Tab switcher */}
             <TeamAnalysisTabs key={members.join(",")} strengths={analysis.strengths} weaknesses={analysis.weaknesses} gaps={analysis.gaps} />
           </Card>
+
+          {/* Member Compatibility */}
+          {members.length >= 2 ? (
+            <Card title="メンバー間相性" icon="💞" color="#ec4899" delay={2} large>
+              <TeamCompatibility members={members} />
+            </Card>
+          ) : null}
         </div>
       ) : null}
     </div>
