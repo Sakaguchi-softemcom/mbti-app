@@ -162,6 +162,50 @@ const ECO = {ES:{l:"リア充アクティブ派",i:"🏖️",c:"#f97316",d:"フ�
 const SR = {FP:{l:"価値観ファイター",i:"🎯",c:"#ec4899",d:"自分の価値観と自由を最優先に据える。本質を見抜く直感力があり、嘘や偽りを本能的に見破る。",m:"「それ本当に必要？」と核心を突く。無駄を削ぎ落とし本当に大切なものを浮かび上がらせる。"},FJ:{l:"調和のガーディアン",i:"🤝",c:"#0ea5e9",d:"場の雰囲気を守る調整役。対立を感知すると自然と間に入り、全員が納得する落とし所を見つける。",m:"全員の意見を引き出し、優先順位をつけてまとめ上げる。会議の空気を読むプロ。"},TP:{l:"論理の切れ者",i:"🐺",c:"#f43f5e",d:"合理性を追求する鋭い思考の持ち主。無駄を嫌い、最短ルートで核心にたどり着く。",m:"「で、結論は？」会議のムダを省き、論理の穴を瞬時に指摘。問題解決のスピードが段違い。"},TJ:{l:"目標達成マシーン",i:"⚙️",c:"#64748b",d:"効率と結果を重視し、計画を立て規律を守る。ゴールから逆算して行動する戦略的実行者。",m:"アジェンダ設定、時間管理、ネクストアクションの明確化。会議を成果に直結させる。"}};
 const LS = {EJ:{l:"目的達成の推進者",i:"🏆",c:"#eab308",d:"「やると決めたことは必ずやる」が信条。目標に向かって周囲を巻き込む強力な推進力を持つ。",mt:"「決めたらやる。言い訳は聞かない」"},IJ:{l:"確実な道筋の設計者",i:"🗺️",c:"#0891b2",d:"綿密な計画と内面の強さで、確実にゴールにたどり着く。派手さはないが信頼性は抜群。",mt:"「準備がすべて。備えあれば憂いなし」"},EP:{l:"自由な冒険者",i:"🎲",c:"#d946ef",d:"人生の選択は自分で決める。型にはまらない生き方を貫き、予定調和を嫌う自由な精神の持ち主。",mt:"「後悔だけはしたくない。やらない後悔よりやる後悔」"},IP:{l:"静かなる求道者",i:"🧘",c:"#059669",d:"自分の内なる声に従い、信念を貫く。外からの評価より自分自身が納得できるかを重視する。",mt:"「自分に嘘をつかない。それだけは譲れない」"}};
 const TAL = {NJ:{l:"パーフェクト型",i:"💎",c:"#7c3aed",s:"高い目標を掲げ、カリスマ性と計画力で組織を牽引する。ビジョンを現実に変える実行力が強み。",sp:"未来予測 — まだ誰も見ていない可能性を先取りする直感力"},SJ:{l:"ディテール型",i:"🔍",c:"#0284c7",s:"現実的で几帳面。ルールとの整合性を保ちながら、コツコツと信頼を積み上げていく堅実さが武器。",sp:"ミス発見 — 他の誰もが見落とす小さなズレを確実に捕捉する眼力"},NP:{l:"イノベーション型",i:"💡",c:"#ea580c",s:"好奇心旺盛で変化を楽しむ。退屈を最も恐れ、常に新しい可能性を追求し続けるイノベーター。",sp:"発想転換 — 行き詰まった状況で全く新しい切り口を見出す閃き"},SP:{l:"パフォーマンス型",i:"⚡",c:"#dc2626",s:"圧倒的な行動力と現実への適応力。瞬間的な判断と実行のスピードで他を圧倒する。",sp:"瞬間対応 — 予想外の事態に即座に反応し最適な行動を取る反射神経"}};
+
+/* ═══════════════════════════════════════════════
+   心理機能 (Cognitive Function Stacks)
+   ═══════════════════════════════════════════════ */
+var CF_INFO = {
+  Ni:{name:"内向的直感",abbr:"Ni",icon:"🔮",c:"#a855f7",d:"未来のパターンや本質を直感的に見抜く力。「なんとなくこうなる気がする」という予感が高い精度で的中する。表面に見えない深い意味やつながりを無意識に読み取る。"},
+  Ne:{name:"外向的直感",abbr:"Ne",icon:"💡",c:"#f59e0b",d:"可能性とアイデアを無限に広げる力。一つの情報から連想ゲームのように発想が飛躍し、「こうしたらどうなる？」と常に新しい切り口を見つけ出す。"},
+  Si:{name:"内向的感覚",abbr:"Si",icon:"📚",c:"#0891b2",d:"過去の経験やデータを精密に記憶し、現在に活かす力。「以前こうだったから」という経験則が判断の土台になる。安定感と再現性を重視する。"},
+  Se:{name:"外向的感覚",abbr:"Se",icon:"⚡",c:"#dc2626",d:"今この瞬間の現実を五感でリアルに捉える力。環境の変化に素早く反応し、身体感覚を通じて世界と深くつながる。行動力とスピード感が武器。"},
+  Ti:{name:"内向的思考",abbr:"Ti",icon:"🧩",c:"#3b82f6",d:"内面で独自の論理体系を組み立てる力。「これは本当に正しいのか？」と原理原則から徹底的に検証する。矛盾を見抜く鋭さに長ける。"},
+  Te:{name:"外向的思考",abbr:"Te",icon:"📊",c:"#059669",d:"効率と結果を追求し、外部のシステムを整える力。データや事実に基づいて素早く判断し、計画を実行に移す推進力がある。"},
+  Fi:{name:"内向的感情",abbr:"Fi",icon:"💎",c:"#ec4899",d:"自分の内なる価値観や信念に基づいて判断する力。「自分にとって何が本当に大切か」を深く理解しており、その軸がブレない。真実と誠実さを重んじる。"},
+  Fe:{name:"外向的感情",abbr:"Fe",icon:"🤝",c:"#8b5cf6",d:"他者の感情を敏感に読み取り、場の調和を保つ力。グループの雰囲気を自然とまとめ上げ、全員が心地よくいられる環境を作り出す。"}
+};
+var CF_ROLE = [
+  {name:"主機能",sub:"最も得意な心の武器",c:"#33b98a",icon:"👑",bar:95},
+  {name:"補助機能",sub:"主機能を支えるパートナー",c:"#3b82f6",icon:"🛡️",bar:75},
+  {name:"第三機能",sub:"成長とともに開花するポテンシャル",c:"#eab308",icon:"🌱",bar:45},
+  {name:"劣等機能",sub:"ストレス時に顔を出す弱点",c:"#ef4444",icon:"⚠️",bar:20}
+];
+var CF_STACK = {
+  INTP:["Ti","Ne","Si","Fe"],INTJ:["Ni","Te","Fi","Se"],INFP:["Fi","Ne","Si","Te"],INFJ:["Ni","Fe","Ti","Se"],
+  ISTP:["Ti","Se","Ni","Fe"],ISTJ:["Si","Te","Fi","Ne"],ISFP:["Fi","Se","Ni","Te"],ISFJ:["Si","Fe","Ti","Ne"],
+  ENTP:["Ne","Ti","Fe","Si"],ENTJ:["Te","Ni","Se","Fi"],ENFP:["Ne","Fi","Te","Si"],ENFJ:["Fe","Ni","Se","Ti"],
+  ESTP:["Se","Ti","Fe","Ni"],ESTJ:["Te","Si","Ne","Fi"],ESFP:["Se","Fi","Te","Ni"],ESFJ:["Fe","Si","Ne","Ti"]
+};
+var CF_STRESS = {
+  INTP:"ストレスが限界に達すると、普段は無頓着な他者の評価が突然気になり始め、「みんなに嫌われているのでは」と感情的になる。",
+  INTJ:"追い込まれると、細部へのこだわりや快楽への暴走（暴食・衝動買い等）という普段とは真逆の行動が表出する。",
+  INFP:"過度のストレスで突然冷徹なロジックを振りかざし、周囲を論破しようとする攻撃的な一面が現れる。",
+  INFJ:"限界時に五感の刺激に溺れる（過食・散財等）か、「もう誰も自分を理解してくれない」と完全に殻に閉じこもる。",
+  ISTP:"感情を溜め込みすぎると突然爆発し、普段は絶対に言わないような感情的な言葉で周囲を驚かせる。",
+  ISTJ:"ストレス過多で「最悪の未来」ばかりが見えるようになり、普段の冷静さを失って破滅的な予測に囚われる。",
+  ISFP:"追い詰められると急にデータや論理で武装し、冷たく批判的な態度で周囲を切り捨てようとする。",
+  ISFJ:"限界を超えると「もう全部どうでもいい」と投げやりになり、普段の献身的な姿からは想像できない無関心さを見せる。",
+  ENTP:"ストレスで突然、過去の細かい失敗やトラウマに囚われ、普段の楽観性が消えてネガティブなループに陥る。",
+  ENTJ:"感情を無視し続けた結果、「誰も自分の気持ちを分かってくれない」と突然感傷的になり、孤独感に苛まれる。",
+  ENFP:"過度な疲労で急に細部が気になり始め、体調の些細な変化に不安を覚えたり、ルーティンに固執したりする。",
+  ENFJ:"限界時に「自分のことは自分で決めろ」と突然冷たく突き放し、普段の温かさが嘘のように消える。",
+  ESTP:"追い込まれると「どうせ未来は暗い」と悲観的な妄想に囚われ、普段のポジティブさが完全に消失する。",
+  ESTJ:"感情を抑え込みすぎると突然爆発し、「誰も自分を認めてくれない」と被害者意識に陥る。",
+  ESFP:"ストレスが蓄積すると陰謀論的な思考に走り、「裏で何か企んでいるのでは」と周囲を疑い始める。",
+  ESFJ:"限界を超えると突然「もう人に合わせるのはやめた」と反抗的になり、論理で武装して周囲を攻撃する。"
+};
 /* ═══════════════════════════════════════════════
    ソシオニクス タイプ間関係 (Intertype Relations)
    ═══════════════════════════════════════════════ */
@@ -358,39 +402,138 @@ function analyzeTeam(members) {
   var traits={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
   members.forEach(function(m){m.split("").forEach(function(c){if(traits[c]!==undefined)traits[c]++;});});
   var total=members.length||1;var gaps=[];
-  if(traits.E/total<0.25)gaps.push({issue:"外向型(E)不足",
-    fix:"対外コミュニケーション力と推進力が不足しています。プレゼンテーション、営業交渉、社内外へのアピールが弱くなり、チームの成果が正当に評価されにくいリスクがあります。",
-    action:"チーム外への成果発信を意識的にタスク化する。月次レポートの共有、社内LTへの登壇、クライアント向けデモの担当者を明示的にアサインしましょう。",
-    suggest:["ESTP","ENFP","ENTJ"]});
-  if(traits.I/total<0.25)gaps.push({issue:"内向型(I)不足",
-    fix:"深い分析や内省の担い手が少なく、拙速な判断に陥るリスクがあります。議論が活発で盛り上がるものの、「本当にこれで正しいのか」を立ち止まって検証する機能が弱い状態です。",
-    action:"重要な意思決定の前に「沈黙の10分間」を設け、各自が紙に意見を書き出すサイレントブレストを導入する。非同期のドキュメントレビューも有効です。",
-    suggest:["INTJ","INTP","ISFJ"]});
-  if(traits.S/total<0.25)gaps.push({issue:"感覚型(S)不足",
-    fix:"実装のディテールや品質管理が甘くなる傾向があります。大きなビジョンは描けるのに実行段階でミスが頻発したり、現実のリソース制約を見落としたりするリスクがあります。",
-    action:"プロジェクトの各マイルストーンに品質チェックリストを設ける。要件定義は抽象的な理想だけでなく「具体的に何をいつまでに」の形式に落とし込む習慣を徹底しましょう。",
-    suggest:["ISTJ","ESTJ","ISTP"]});
-  if(traits.N/total<0.25)gaps.push({issue:"直感型(N)不足",
-    fix:"新しいアイデアや中長期ビジョンが出にくく、現状維持に陥りやすい状態です。目の前のタスクは確実にこなせるが、市場の変化や技術トレンドへの対応が遅れ、気づいた時には競合に先を越されるリスクがあります。",
-    action:"月1回の「未来ブレスト会議」を設定し、3年後の理想の状態を議論する場を作る。他部署の企画職や外部アドバイザーとの交流機会を積極的に作りましょう。",
-    suggest:["ENTP","INFJ","ENFP"]});
-  if(traits.T/total<0.25)gaps.push({issue:"思考型(T)不足",
-    fix:"論理的な意思決定基盤が弱く、「雰囲気」や「みんなの気持ち」で重要な判断が左右されがちです。データに基づく客観的な評価が不足し、非効率な施策が続いてしまうリスクがあります。",
-    action:"KPIとデータダッシュボードを整備し、「数字で語る」文化を意識的に醸成する。意思決定時には必ず「賛成/反対の論理的根拠」を明文化するルールを導入しましょう。",
-    suggest:["INTJ","ENTP","ISTP"]});
-  if(traits.F/total<0.25)gaps.push({issue:"感情型(F)不足",
-    fix:"メンバーの感情面のケアが不足し、心理的安全性が損なわれやすい状態です。成果を出していても「このチームにいて楽しいか」が置き去りにされ、モチベーション低下や離職に繋がるリスクがあります。",
-    action:"1on1ミーティングを定期化し、業務だけでなく「最近どう？」という雑談の時間を意識的に確保する。フィードバック時は必ず良い点から伝えるサンドイッチ方式を導入しましょう。",
-    suggest:["ESFJ","ENFJ","ISFP"]});
-  if(traits.J/total<0.25)gaps.push({issue:"判断型(J)不足",
-    fix:"計画と締切管理の甘さがプロジェクト進行の最大のボトルネックになっています。アイデアは出るがまとまらない、タスクが増えるが完了しない、優先順位が曖昧なままズルズル進む——という状態に陥りやすいです。",
-    action:"プロジェクト管理ツール（Trello/Asana等）を必ず導入し、タスクの担当者・期限・ステータスを可視化する。週次の進捗レビューを欠かさず実施し、優先順位の再整理を習慣化しましょう。",
-    suggest:["ESTJ","ISTJ","ENTJ"]});
-  if(traits.P/total<0.25)gaps.push({issue:"知覚型(P)不足",
-    fix:"変化への適応力が低く、想定外の事態に柔軟に対応できない状態です。計画通りに進めることには長けていますが、前提条件が変わった時に方針転換が遅れ、機会損失に繋がるリスクがあります。",
-    action:"計画にあえて「バッファ枠」を設け、想定外に対応できる余白を確保する。四半期ごとに「このまま進めて本当にいいのか」を検証するリトロスペクティブを実施しましょう。",
-    suggest:["ENFP","ESTP","INTP"]});
-  return {traits:traits,gaps:gaps,total:total};
+  function _addGap(trait,issue,fix,action,suggest){
+    var pct=Math.round(traits[trait]/total*100);
+    if(pct<25)gaps.push({issue:issue,fix:fix,action:action,suggest:suggest,pct:pct,count:traits[trait],trait:trait});
+  }
+  _addGap("E","外向型(E)不足",
+    "対外コミュニケーション力と推進力が不足しています。プレゼンテーション、営業交渉、社内外へのアピールが弱くなり、チームの成果が正当に評価されにくいリスクがあります。",
+    "チーム外への成果発信を意識的にタスク化する。月次レポートの共有、社内LTへの登壇、クライアント向けデモの担当者を明示的にアサインしましょう。",
+    ["ESTP","ENFP","ENTJ"]);
+  _addGap("I","内向型(I)不足",
+    "深い分析や内省の担い手が少なく、拙速な判断に陥るリスクがあります。議論が活発で盛り上がるものの、「本当にこれで正しいのか」を立ち止まって検証する機能が弱い状態です。",
+    "重要な意思決定の前に「沈黙の10分間」を設け、各自が紙に意見を書き出すサイレントブレストを導入する。非同期のドキュメントレビューも有効です。",
+    ["INTJ","INTP","ISFJ"]);
+  _addGap("S","感覚型(S)不足",
+    "実装のディテールや品質管理が甘くなる傾向があります。大きなビジョンは描けるのに実行段階でミスが頻発したり、現実のリソース制約を見落としたりするリスクがあります。",
+    "プロジェクトの各マイルストーンに品質チェックリストを設ける。要件定義は抽象的な理想だけでなく「具体的に何をいつまでに」の形式に落とし込む習慣を徹底しましょう。",
+    ["ISTJ","ESTJ","ISTP"]);
+  _addGap("N","直感型(N)不足",
+    "新しいアイデアや中長期ビジョンが出にくく、現状維持に陥りやすい状態です。目の前のタスクは確実にこなせるが、市場の変化や技術トレンドへの対応が遅れ、気づいた時には競合に先を越されるリスクがあります。",
+    "月1回の「未来ブレスト会議」を設定し、3年後の理想の状態を議論する場を作る。他部署の企画職や外部アドバイザーとの交流機会を積極的に作りましょう。",
+    ["ENTP","INFJ","ENFP"]);
+  _addGap("T","思考型(T)不足",
+    "論理的な意思決定基盤が弱く、「雰囲気」や「みんなの気持ち」で重要な判断が左右されがちです。データに基づく客観的な評価が不足し、非効率な施策が続いてしまうリスクがあります。",
+    "KPIとデータダッシュボードを整備し、「数字で語る」文化を意識的に醸成する。意思決定時には必ず「賛成/反対の論理的根拠」を明文化するルールを導入しましょう。",
+    ["INTJ","ENTP","ISTP"]);
+  _addGap("F","感情型(F)不足",
+    "メンバーの感情面のケアが不足し、心理的安全性が損なわれやすい状態です。成果を出していても「このチームにいて楽しいか」が置き去りにされ、モチベーション低下や離職に繋がるリスクがあります。",
+    "1on1ミーティングを定期化し、業務だけでなく「最近どう？」という雑談の時間を意識的に確保する。フィードバック時は必ず良い点から伝えるサンドイッチ方式を導入しましょう。",
+    ["ESFJ","ENFJ","ISFP"]);
+  _addGap("J","判断型(J)不足",
+    "計画と締切管理の甘さがプロジェクト進行の最大のボトルネックになっています。アイデアは出るがまとまらない、タスクが増えるが完了しない、優先順位が曖昧なままズルズル進む——という状態に陥りやすいです。",
+    "プロジェクト管理ツール（Trello/Asana等）を必ず導入し、タスクの担当者・期限・ステータスを可視化する。週次の進捗レビューを欠かさず実施し、優先順位の再整理を習慣化しましょう。",
+    ["ESTJ","ISTJ","ENTJ"]);
+  _addGap("P","知覚型(P)不足",
+    "変化への適応力が低く、想定外の事態に柔軟に対応できない状態です。計画通りに進めることには長けていますが、前提条件が変わった時に方針転換が遅れ、機会損失に繋がるリスクがあります。",
+    "計画にあえて「バッファ枠」を設け、想定外に対応できる余白を確保する。四半期ごとに「このまま進めて本当にいいのか」を検証するリトロスペクティブを実施しましょう。",
+    ["ENFP","ESTP","INTP"]);
+
+  /* === Strengths analysis === */
+  var strengths = [];
+  var STRENGTH_DATA = {
+    E:{icon:"📢",title:"発信力・推進力が高い",desc:"対外コミュニケーションが得意なメンバーが多く、チームの成果を社内外にアピールする力があります。会議やプレゼンの場で積極的に発言し、物事を前に進める推進力に優れています。",tip:"この強みを活かすために、メンバーに社外発表やクライアント対応の機会を積極的に任せましょう。"},
+    I:{icon:"🔍",title:"深い分析力・集中力がある",desc:"じっくり考えて本質を見抜くメンバーが多く、拙速な判断を防ぐ「ブレーキ役」として機能します。一人で集中して高品質なアウトプットを出す力に長けています。",tip:"深い分析が必要なリサーチや品質レビューをこのチームに任せると、精度の高い成果が期待できます。"},
+    S:{icon:"📋",title:"実行力・品質管理に強い",desc:"具体的な事実やデータに基づいて判断するメンバーが多く、計画を確実に実行に移す力があります。細部への注意力が高く、ミスの少ない堅実な仕事ができます。",tip:"品質チェック、マニュアル作成、運用設計など、ディテールが重要なタスクで真価を発揮します。"},
+    N:{icon:"💡",title:"発想力・ビジョン構築に強い",desc:"未来の可能性や新しいアイデアを生み出すメンバーが多く、イノベーションの原動力となります。既存の枠にとらわれない発想で、チームに新しい方向性を示せます。",tip:"ブレインストーミング、新規事業企画、中長期戦略の策定で特に力を発揮します。"},
+    T:{icon:"🧠",title:"論理的思考・問題解決に強い",desc:"データと論理に基づいて冷静に判断できるメンバーが多く、感情に流されない意思決定ができます。複雑な問題を構造的に分解し、効率的な解決策を導き出す力があります。",tip:"KPI設計、業務プロセス改善、技術的な課題解決にこのチームの強みが光ります。"},
+    F:{icon:"💕",title:"共感力・チームワークに強い",desc:"メンバーの気持ちに寄り添い、心理的安全性の高い環境を作る力があります。対人関係の調整やモチベーション管理に長けており、チームの一体感を生み出します。",tip:"顧客対応、社内調整、メンバー育成など、人の気持ちが重要な場面で真価を発揮します。"},
+    J:{icon:"📐",title:"計画力・実行管理に強い",desc:"目標から逆算して計画を立て、期限を守って着実に遂行するメンバーが多く、プロジェクトの安定運用に貢献します。優先順位の整理と進捗管理が得意です。",tip:"プロジェクト管理、スケジュール策定、品質保証プロセスの構築で力を発揮します。"},
+    P:{icon:"🌊",title:"柔軟性・適応力に強い",desc:"変化を恐れず、状況に応じて臨機応変に対応できるメンバーが多く、予想外の事態にも動じません。新しい情報を素早く取り入れて方針を修正する力があります。",tip:"アジャイル開発、トラブル対応、新規市場の探索など、変化の激しい環境で強みが際立ちます。"}
+  };
+  var COMBO_STRENGTHS = {
+    EF:{icon:"☀️",title:"場を明るくするムードメーカー力",desc:"人を巻き込む力と共感力を兼ね備え、チーム全体の士気を高められます。メンバー同士の関係構築や、チームの一体感醸成において無類の強さを発揮します。"},
+    ET:{icon:"🚀",title:"突破力のあるリーダーシップ",desc:"論理的な判断力と積極的な発信力を兼ね備え、困難な局面でもチームを力強く牽引できます。意思決定が速く、決めたことを実行に移すスピードが抜群です。"},
+    IF:{icon:"🌿",title:"繊細な感受性と深い共感力",desc:"メンバーの小さな変化にも気づき、きめ細かいサポートができます。一人ひとりに丁寧に向き合う姿勢が、チームの心理的安全性を高めています。"},
+    IT:{icon:"🔬",title:"深い分析力と戦略的思考",desc:"静かに物事の本質を見抜き、緻密な分析と戦略立案ができます。データドリブンな意思決定と、長期的な視野に基づく計画策定が得意です。"},
+    NF:{icon:"🌈",title:"ビジョンと共感で人を動かす力",desc:"理想を掲げて人の心に火をつける力と、メンバーの成長を支える共感力を併せ持ちます。チームの「なぜやるのか」を言語化し、意味のある方向へ導けます。"},
+    NT:{icon:"⚡",title:"知的パワーでイノベーションを起こす力",desc:"高い知的好奇心と論理的思考力で、複雑な課題に対して革新的な解決策を生み出せます。戦略立案から技術革新まで、知の力で組織を前進させます。"},
+    SF:{icon:"🏠",title:"安心感のある実務力",desc:"現実的な判断力と人への気配りを兼ね備え、堅実かつ温かいチーム運営ができます。ルーティンワークの正確さと、メンバーへの細やかなサポートが強みです。"},
+    ST:{icon:"💼",title:"数字と成果で語るプロ意識",desc:"データに基づく判断力と確実な実行力で、高品質な成果を安定的に出し続けられます。業務改善や品質管理のプロフェッショナル集団です。"},
+    SJ:{icon:"🏗️",title:"盤石な基盤を作る組織力",desc:"ルールと計画を重視し、ブレない運用体制を構築できます。マニュアル化、品質チェック、進捗管理など、組織の土台を支える力が圧倒的です。"},
+    NP:{icon:"🎨",title:"自由な発想と探求心",desc:"好奇心と柔軟性を兼ね備え、既存の枠にとらわれない斬新なアイデアを次々に生み出せます。変化を楽しみ、未知の領域に果敢に踏み込む冒険心があります。"},
+    NJ:{icon:"🎯",title:"ビジョンを計画に落とし込む力",desc:"理想を描くだけでなく、それを具体的なロードマップに変換して実行まで持っていける稀有な力を持っています。"},
+    SP:{icon:"⚡",title:"現場対応力と瞬発力",desc:"目の前の状況に即座に反応し、最適な行動を取れる瞬発力があります。トラブル発生時の対応スピードと柔軟性は他の追随を許しません。"}
+  };
+  /* Single-axis strengths (>=50%) */
+  var _rawStr = [];
+  "EISNTFJP".split("").forEach(function(k) {
+    var pct = Math.round(traits[k]/total*100);
+    if(pct >= 50 && STRENGTH_DATA[k]) {
+      _rawStr.push({s:Object.assign({},STRENGTH_DATA[k],{pct:pct}),score:traits[k]/total});
+    }
+  });
+  /* Combo strengths (both axes >=40%) */
+  Object.keys(COMBO_STRENGTHS).forEach(function(combo) {
+    var a = combo[0], b = combo[1];
+    var pa = Math.round(traits[a]/total*100), pb = Math.round(traits[b]/total*100);
+    if(pa >= 40 && pb >= 40) {
+      _rawStr.push({s:Object.assign({},COMBO_STRENGTHS[combo],{pct:Math.round((pa+pb)/2)}),score:(traits[a]+traits[b])/(total*2)});
+    }
+  });
+  /* Sort by dominance and cap at 4 */
+  _rawStr.sort(function(a,b){return b.score-a.score;});
+  strengths = _rawStr.slice(0,4).map(function(r){return r.s;});
+
+  /* === Weaknesses (traits <35%, with severity) === */
+  var weaknesses = [];
+  var WEAKNESS_DATA = {
+    E:{icon:"🔇",title:"対外発信が控えめ",desc:"チームの成果を外にアピールする機会を逃しがち。会議でも受け身になりやすい傾向があります。"},
+    I:{icon:"💨",title:"立ち止まって考える力が弱い",desc:"行動は速いが、深い検討が不足しがち。「本当にこれでいいのか」の検証が甘くなる傾向があります。"},
+    S:{icon:"🌫️",title:"実行のディテールが甘い",desc:"大きな絵は描けるが、具体的な手順や品質管理が後回しになりがち。ミスの温床になりやすいです。"},
+    N:{icon:"🧱",title:"新しいアイデアが出にくい",desc:"現状維持に陥りやすく、変化や技術トレンドへの対応が遅れるリスクがあります。"},
+    T:{icon:"🫧",title:"論理的な判断基盤が弱い",desc:"雰囲気や感情で重要な判断が左右されがち。データに基づく客観的な評価が不足する傾向です。"},
+    F:{icon:"🧊",title:"メンバーの感情ケアが不足",desc:"成果重視で「このチームにいて楽しいか」が置き去りに。モチベーション低下や離職リスクがあります。"},
+    J:{icon:"🌀",title:"計画と締切管理が甘い",desc:"アイデアは出るがまとまらない、タスクが完了しない、優先順位が曖昧になりやすいです。"},
+    P:{icon:"🔒",title:"変化への適応が苦手",desc:"計画通りには強いが、前提が変わった時の方針転換が遅れがち。柔軟性に欠ける面があります。"}
+  };
+  "EISNTFJP".split("").forEach(function(k) {
+    var pct = Math.round(traits[k]/total*100);
+    if(pct < 35 && WEAKNESS_DATA[k]) {
+      var severity = pct === 0 ? "致命的" : pct <= 15 ? "深刻" : "やや不足";
+      var sevColor = pct === 0 ? "#ef4444" : pct <= 15 ? "#f97316" : "#eab308";
+      weaknesses.push(Object.assign({},WEAKNESS_DATA[k],{pct:pct,severity:severity,sevColor:sevColor,trait:k,count:traits[k]}));
+    }
+  });
+  /* Team character summary */
+  var dominant = [];
+  [["E","I"],["S","N"],["T","F"],["J","P"]].forEach(function(pair){
+    dominant.push(traits[pair[0]] >= traits[pair[1]] ? pair[0] : pair[1]);
+  });
+  var teamChar = dominant.join("");
+
+  /* Team archetype - descriptive name instead of MBTI */
+  var TEAM_ARCHETYPE = {
+    ENTJ:{name:"突破型リーダーチーム",icon:"🚀",desc:"目標に向かって全力で突き進む推進力が最大の武器"},
+    ENFJ:{name:"チームビルダー型",icon:"🤝",desc:"人の力を引き出し、一体感で成果を出すチーム"},
+    ENTP:{name:"イノベーター型",icon:"💡",desc:"常識を壊して新しい価値を生み出す発想力が武器"},
+    ENFP:{name:"ムーブメント型",icon:"🎪",desc:"情熱と巻き込み力で周囲にポジティブな変化を起こす"},
+    ESTJ:{name:"鉄壁マネジメント型",icon:"🏗️",desc:"計画・実行・管理の三拍子が揃った盤石の運営力"},
+    ESFJ:{name:"あったかサポート型",icon:"☀️",desc:"気配りと協調性でチーム全体を温かく包むチーム"},
+    ESTP:{name:"現場突撃型",icon:"⚡",desc:"スピードと行動力で困難を突破する実行チーム"},
+    ESFP:{name:"お祭りエンタメ型",icon:"🎉",desc:"楽しさとエネルギーでチームの士気を爆上げする"},
+    INTJ:{name:"戦略参謀型",icon:"🎯",desc:"冷静な分析と長期視点で最適解を導き出すチーム"},
+    INFJ:{name:"静かなる革命家型",icon:"🌿",desc:"深い洞察と理想で組織を内側から変えていく"},
+    INTP:{name:"知的探究型",icon:"🔬",desc:"「なぜ？」を追求し、本質を解明する知の集団"},
+    INFP:{name:"理想追求型",icon:"🌈",desc:"ブレない価値観と繊細さで独自の世界を作り上げる"},
+    ISTJ:{name:"堅実キッチリ型",icon:"📐",desc:"ルールと責任感で確実に成果を積み上げる信頼のチーム"},
+    ISFJ:{name:"縁の下の力持ち型",icon:"🧸",desc:"献身的なサポートと気配りでチームの土台を支える"},
+    ISTP:{name:"職人クール型",icon:"🔧",desc:"無駄なく的確に問題を解決するプロフェッショナル集団"},
+    ISFP:{name:"感性クリエイティブ型",icon:"🎨",desc:"独自のセンスと穏やかさで心地よい環境を作る"}
+  };
+  var archetype = TEAM_ARCHETYPE[teamChar] || {name:"バランス型チーム",icon:"⚖️",desc:"多様な強みを持つバランスの取れたチーム"};
+
+  return {traits:traits,gaps:gaps,strengths:strengths,weaknesses:weaknesses,teamChar:teamChar,archetype:archetype,total:total};
 }
 
 /* ═══════════════════════════════════════════════
@@ -799,6 +942,53 @@ function AnalysisTab({type}) {
             );
           })}
         </div>
+      </Card>
+
+      {/* Cognitive Function Stack */}
+      <Card title="心理機能スタック" icon="⚙️" color="#0ea5e9" delay={4} large>
+        <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:"0 0 14px",lineHeight:1.6}}>{type}が使う4つの心理機能を、得意な順に並べたものです。上ほど自然に使え、下ほど意識的な努力が必要です。</p>
+        {(CF_STACK[type]||[]).map(function(fn,i){
+          var info = CF_INFO[fn];
+          var role = CF_ROLE[i];
+          if(!info||!role) return null;
+          return (
+            <div key={i} style={{padding:14,borderRadius:14,background:role.c+"08",border:"1px solid "+role.c+"15",marginBottom:i<3?10:0,animation:"fadeUp 0.4s ease both",animationDelay:(i*0.1)+"s"}}>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+                <div style={{width:40,height:40,borderRadius:12,background:info.c+"15",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>{info.icon}</div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}>
+                    <span style={{fontFamily:F.h,fontSize:14,color:info.c,fontWeight:800}}>{info.abbr}</span>
+                    <span style={{fontFamily:F.b,fontSize:10,color:info.c,fontWeight:600}}>{info.name}</span>
+                  </div>
+                  <div style={{display:"flex",alignItems:"center",gap:6}}>
+                    <span style={{fontSize:10}}>{role.icon}</span>
+                    <span style={{fontFamily:F.b,fontSize:9,color:role.c,fontWeight:700}}>{role.name}</span>
+                    <span style={{fontFamily:F.b,fontSize:8,color:S.dm}}>— {role.sub}</span>
+                  </div>
+                </div>
+              </div>
+              {/* Strength bar */}
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                <div style={{flex:1,height:6,borderRadius:3,background:"rgba(255,255,255,0.06)"}}>
+                  <div style={{width:role.bar+"%",height:6,borderRadius:3,background:"linear-gradient(90deg,"+info.c+","+info.c+"88)",transition:"width 0.8s ease"}} />
+                </div>
+                <span style={{fontFamily:F.h,fontSize:9,color:info.c,fontWeight:700,flexShrink:0}}>{role.bar}%</span>
+              </div>
+              <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.7,margin:0}}>{info.d}</p>
+            </div>
+          );
+        })}
+
+        {/* Stress reaction */}
+        {CF_STRESS[type] ? (
+          <div style={{marginTop:14,padding:14,borderRadius:14,background:"rgba(239,68,68,0.05)",border:"1px solid rgba(239,68,68,0.12)"}}>
+            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:6}}>
+              <span style={{fontSize:14}}>😰</span>
+              <p style={{fontFamily:F.b,fontSize:11,color:"#ef4444",fontWeight:700,margin:0}}>ストレス時の反応（劣等機能グリップ）</p>
+            </div>
+            <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.8,margin:0}}>{CF_STRESS[type]}</p>
+          </div>
+        ) : null}
       </Card>
     </div>
   );
@@ -1367,6 +1557,165 @@ function CorrelationTab() {
    TAB: TEAM (チーム)
    ═══════════════════════════════════════════════ */
 
+function TeamAnalysisTabs({strengths, weaknesses, gaps}) {
+  var tabState = useState("strengths");
+  var activeTab = tabState[0], setTab = tabState[1];
+
+  var healthScore = Math.max(0, 100 - gaps.length * 12);
+  var healthColor = healthScore >= 80 ? "#33b98a" : healthScore >= 50 ? "#eab308" : "#f97316";
+  var healthLabel = healthScore >= 80 ? "とても健全" : healthScore >= 50 ? "おおむね良好" : "要改善あり";
+
+  var tabs = [
+    {id:"strengths",label:"✨ 強み",count:strengths.length,color:"#8b5cf6"},
+    {id:"weaknesses",label:"⚠️ 弱み",count:weaknesses.length,color:"#eab308"},
+    {id:"gaps",label:"🔧 改善",count:gaps.length,color:"#f97316"}
+  ];
+
+  return (
+    <div>
+      <div style={{display:"flex",gap:5,marginBottom:14}}>
+        {tabs.map(function(t){
+          var active = activeTab===t.id;
+          return (
+            <button key={t.id} onClick={function(){setTab(t.id);}}
+              style={{all:"unset",cursor:"pointer",flex:1,textAlign:"center",padding:"9px 4px",borderRadius:12,
+                fontFamily:F.b,fontSize:11,fontWeight:700,
+                background:active?t.color+"18":"transparent",
+                color:active?t.color:S.dm,
+                border:active?"1.5px solid "+t.color+"40":"1.5px solid transparent",
+                transition:"all 0.2s"}}>
+              {t.label}<span style={{fontSize:9,opacity:0.7,marginLeft:3}}>({t.count})</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── 強み Tab ── */}
+      {activeTab==="strengths" ? (
+        strengths.length > 0 ? strengths.map(function(s,i){
+          return (
+            <div key={i} style={{padding:14,borderRadius:12,background:"rgba(139,92,246,0.03)",border:"1px solid rgba(139,92,246,0.08)",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                <span style={{fontSize:16,flexShrink:0}}>{s.icon}</span>
+                <p style={{fontFamily:F.b,fontSize:11,color:"#7c3aed",fontWeight:700,margin:0,flex:1}}>{s.title}</p>
+                {s.pct ? <span style={{fontFamily:F.h,fontSize:9,color:"#8b5cf6",fontWeight:700,background:"rgba(139,92,246,0.12)",padding:"2px 7px",borderRadius:8,flexShrink:0}}>{s.pct}%</span> : null}
+              </div>
+              <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.7,margin:"0 0 8px"}}>{s.desc}</p>
+              {s.tip ? (
+                <div style={{padding:10,borderRadius:8,background:"rgba(139,92,246,0.05)",border:"1px solid rgba(139,92,246,0.10)"}}>
+                  <p style={{fontFamily:F.b,fontSize:9,color:"#8b5cf6",fontWeight:700,margin:"0 0 3px"}}>💎 活かし方</p>
+                  <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.7,margin:0}}>{s.tip}</p>
+                </div>
+              ) : null}
+            </div>
+          );
+        }) : (
+          <div style={{textAlign:"center",padding:20}}>
+            <span style={{fontSize:24}}>⚖️</span>
+            <p style={{fontFamily:F.b,fontSize:11,color:"#8b5cf6",fontWeight:700,margin:"8px 0 4px"}}>バランス型チーム</p>
+            <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:0}}>突出した偏りがなく、多角的なアプローチが可能なチームです。</p>
+          </div>
+        )
+      ) : null}
+
+      {/* ── 弱み Tab ── */}
+      {activeTab==="weaknesses" ? (
+        weaknesses.length > 0 ? (
+          <div>
+            {weaknesses.map(function(w,i){
+              return (
+                <div key={i} style={{padding:12,borderRadius:12,background:"rgba(234,179,8,0.04)",border:"1px solid rgba(234,179,8,0.10)",marginBottom:8}}>
+                  <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
+                    <span style={{fontSize:18,flexShrink:0,marginTop:2}}>{w.icon}</span>
+                    <div style={{flex:1}}>
+                      <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}>
+                        <p style={{fontFamily:F.b,fontSize:11,color:w.sevColor||"#eab308",fontWeight:700,margin:0}}>{w.title}</p>
+                        <span style={{fontFamily:F.h,fontSize:8,color:"white",fontWeight:700,background:w.sevColor||"#eab308",padding:"1px 6px",borderRadius:6,flexShrink:0}}>{w.severity||"不足"}</span>
+                      </div>
+                      <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.7,margin:"0 0 6px"}}>{w.desc}</p>
+                      <div style={{display:"flex",alignItems:"center",gap:8}}>
+                        <div style={{flex:1,height:4,borderRadius:2,background:"rgba(255,255,255,0.08)"}}>
+                          <div style={{width:Math.max(2,w.pct)+"%",height:4,borderRadius:2,background:w.sevColor||"#eab308",transition:"width 0.5s"}} />
+                        </div>
+                        <span style={{fontFamily:F.h,fontSize:9,color:w.sevColor||"#eab308",fontWeight:700,flexShrink:0}}>{w.count}名 / {w.pct}%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div style={{textAlign:"center",padding:20}}>
+            <span style={{fontSize:24}}>💪</span>
+            <p style={{fontFamily:F.b,fontSize:11,color:"#33b98a",fontWeight:700,margin:"8px 0 4px"}}>目立った弱みなし！</p>
+            <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:0}}>認知機能が万遍なくカバーされており、大きな弱点のないチームです。</p>
+          </div>
+        )
+      ) : null}
+
+      {/* ── 改善ポイント Tab ── */}
+      {activeTab==="gaps" ? (
+        <div>
+          {/* Health score banner */}
+          <div style={{padding:14,borderRadius:14,background:"rgba(0,0,0,0.15)",border:"1px solid rgba(255,255,255,0.06)",marginBottom:14,display:"flex",alignItems:"center",gap:14}}>
+            <div style={{position:"relative",width:56,height:56,flexShrink:0}}>
+              <svg width={56} height={56} viewBox="0 0 56 56">
+                <circle cx={28} cy={28} r={24} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={5} />
+                <circle cx={28} cy={28} r={24} fill="none" stroke={healthColor} strokeWidth={5}
+                  strokeDasharray={2*Math.PI*24} strokeDashoffset={2*Math.PI*24*(1-healthScore/100)}
+                  strokeLinecap="round" transform="rotate(-90 28 28)" style={{transition:"stroke-dashoffset 0.8s ease"}} />
+              </svg>
+              <div style={{position:"absolute",top:0,left:0,width:56,height:56,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <span style={{fontFamily:F.h,fontSize:16,fontWeight:800,color:healthColor}}>{healthScore}</span>
+              </div>
+            </div>
+            <div style={{flex:1}}>
+              <p style={{fontFamily:F.b,fontSize:12,color:healthColor,fontWeight:700,margin:"0 0 3px"}}>チーム健全度: {healthLabel}</p>
+              <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:0,lineHeight:1.5}}>
+                {gaps.length > 0 ? gaps.length+"つの改善ポイントが見つかりました。" : "認知機能がバランスよく配分されています。"}
+              </p>
+            </div>
+          </div>
+
+          {/* Gaps - always fully expanded */}
+          {gaps.length > 0 ? gaps.map(function(gap,i){
+            return (
+              <div key={i} style={{padding:14,borderRadius:12,background:"rgba(249,115,22,0.04)",border:"1px solid rgba(249,115,22,0.10)",marginBottom:10}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+                  <p style={{fontFamily:F.b,fontSize:12,color:"#fb923c",fontWeight:700,margin:0,flex:1}}>{gap.issue}</p>
+                  <span style={{fontFamily:F.h,fontSize:9,color:"#fb923c",fontWeight:700,background:"rgba(249,115,22,0.12)",padding:"2px 7px",borderRadius:8,flexShrink:0}}>{gap.count}名 ({gap.pct}%)</span>
+                </div>
+                <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.7,margin:"0 0 10px"}}>{gap.fix}</p>
+                {gap.action ? (
+                  <div style={{padding:10,borderRadius:8,background:"rgba(51,185,138,0.06)",border:"1px solid rgba(51,185,138,0.12)",marginBottom:10}}>
+                    <p style={{fontFamily:F.b,fontSize:9,color:"#33b98a",fontWeight:700,margin:"0 0 3px"}}>💡 改善アクション</p>
+                    <p style={{fontFamily:F.b,fontSize:10,color:"#a7f3d0",lineHeight:1.7,margin:0}}>{gap.action}</p>
+                  </div>
+                ) : null}
+                <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:"0 0 6px"}}>補強候補:</p>
+                <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                  {gap.suggest.map(function(s) {
+                    return <div key={s} style={{display:"flex",alignItems:"center",gap:5,padding:"4px 10px",borderRadius:12,background:GC[GRP[s]]+"12",border:"1px solid "+GC[GRP[s]]+"25"}}>
+                      <Avatar type={s} size={20} /><span style={{fontFamily:F.h,fontSize:9,color:GC[GRP[s]],fontWeight:600}}>{s}</span>
+                    </div>;
+                  })}
+                </div>
+              </div>
+            );
+          }) : (
+            <div style={{textAlign:"center",padding:20}}>
+              <span style={{fontSize:24}}>🎉</span>
+              <p style={{fontFamily:F.b,fontSize:11,color:"#33b98a",fontWeight:700,margin:"8px 0 4px"}}>改善不要！</p>
+              <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:0}}>全ての認知機能がバランスよく配分されている理想的なチームです。</p>
+            </div>
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function TeamTab() {
   var membersState = useState([]);
   var members = membersState[0], setMembers = membersState[1];
@@ -1434,36 +1783,17 @@ function TeamTab() {
             ]} />
           </Card>
 
-          {analysis.gaps.length > 0 ? (
-            <Card title="チームの改善ポイント" icon="🚨" color="#f97316" delay={2} large>
-              {analysis.gaps.map(function(gap,i) {
-                return (
-                  <div key={i} style={{padding:14,borderRadius:12,background:"rgba(249,115,22,0.04)",border:"1px solid rgba(249,115,22,0.10)",marginBottom:i<analysis.gaps.length-1?10:0}}>
-                    <p style={{fontFamily:F.b,fontSize:11,color:"#fb923c",fontWeight:700,margin:"0 0 4px"}}>{gap.issue}</p>
-                    <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.7,margin:"0 0 8px"}}>{gap.fix}</p>
-                    {gap.action ? (
-                      <div style={{padding:10,borderRadius:8,background:"rgba(51,185,138,0.06)",border:"1px solid rgba(51,185,138,0.12)",marginBottom:10}}>
-                        <p style={{fontFamily:F.b,fontSize:9,color:"#33b98a",fontWeight:700,margin:"0 0 3px",letterSpacing:"0.05em"}}>💡 改善アクション</p>
-                        <p style={{fontFamily:F.b,fontSize:10,color:"#a7f3d0",lineHeight:1.7,margin:0}}>{gap.action}</p>
-                      </div>
-                    ) : null}
-                    <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:"0 0 6px"}}>補強候補:</p>
-                    <div style={{display:"flex",gap:6}}>
-                      {gap.suggest.map(function(s) {
-                        return <div key={s} style={{display:"flex",alignItems:"center",gap:5,padding:"4px 10px",borderRadius:12,background:GC[GRP[s]]+"12",border:"1px solid "+GC[GRP[s]]+"25"}}>
-                          <Avatar type={s} size={20} /><span style={{fontFamily:F.h,fontSize:9,color:GC[GRP[s]],fontWeight:600}}>{s}</span>
-                        </div>;
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </Card>
-          ) : (
-            <Card title="チームバランス良好" icon="✅" color="#33b98a" delay={2}>
-              <p style={{fontFamily:F.b,fontSize:11,color:"#a7f3d0",lineHeight:1.7,margin:0}}>全ての認知機能がバランスよく配分されています。多様な視点から物事を捉えられる理想的なチーム構成です。</p>
-            </Card>
-          )}
+          <Card title="チーム分析" icon="🔎" color="#7c3aed" delay={1.5} large>
+            {/* Team archetype banner */}
+            <div style={{padding:16,borderRadius:14,background:"linear-gradient(135deg,rgba(124,58,237,0.08),rgba(59,130,246,0.05))",border:"1px solid rgba(124,58,237,0.15)",marginBottom:16,textAlign:"center"}}>
+              <span style={{fontSize:32,display:"block",marginBottom:4}}>{analysis.archetype.icon}</span>
+              <p style={{fontFamily:F.b,fontSize:16,color:"#7c3aed",fontWeight:800,margin:"0 0 4px"}}>{analysis.archetype.name}</p>
+              <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:0,lineHeight:1.6}}>{analysis.archetype.desc}</p>
+            </div>
+
+            {/* Tab switcher */}
+            <TeamAnalysisTabs key={members.join(",")} strengths={analysis.strengths} weaknesses={analysis.weaknesses} gaps={analysis.gaps} />
+          </Card>
         </div>
       ) : null}
     </div>
@@ -1514,7 +1844,7 @@ function App() {
             fontFamily:F.h, fontSize:26, fontWeight:900, margin:0, letterSpacing:"0.02em",
             background:S.gradient, WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent"
           }}>16 Personalities</h1>
-          <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:"4px 0 0"}}>あなたの性格を深く、美しく読み解く</p>
+          <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:"4px 0 0"}}><a href="https://www.16personalities.com/ja/%E6%80%A7%E6%A0%BC%E8%A8%BA%E6%96%AD%E3%83%86%E3%82%B9%E3%83%88" target="_blank" rel="noopener noreferrer" style={{color:"#818cf8",textDecoration:"none"}}>16Personalities診断へ ↗</a></p>
         </div>
 
         {/* Tab Bar */}
