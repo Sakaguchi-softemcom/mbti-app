@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>16 Personalities Deep Dive</title>
-<meta name="description" content="MBTIタイプの深層分析・恋愛相性・仕事相性・チーム分析">
+<meta name="description" content="16タイプの深層分析・恋愛相性・仕事相性・チーム分析">
 <meta property="og:title" content="16 Personalities Deep Dive">
 <meta property="og:description" content="あなたの性格を深く、美しく読み解く">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
@@ -849,7 +849,7 @@ function TypeGrid({value,onChange,label,compact}) {
    TAB: ANALYSIS (分析)
    ═══════════════════════════════════════════════ */
 function AnalysisTab({type}) {
-  if (!type) return <EmptyState text="MBTIタイプを選択してください" />;
+  if (!type) return <EmptyState text="タイプを選択してください" />;
   var k = gk(type), gc = GC[GRP[type]];
   var relData = REL[k.rel], ecoData = ECO[k.eco], srData = SR[k.role], lsData = LS[k.life], talData = TAL[k.talent], geData = GE[k.eco[1]+k.role[0]];
   var dims = [
@@ -1369,7 +1369,7 @@ function CorrelationTab() {
     <div>
       {/* Member Input */}
       <Card title="メンバーを追加" icon="✏️" color="#8B5CF6" delay={0} large>
-        <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:"0 0 12px"}}>名前とMBTIタイプを入力してメンバーを追加（最大8名）</p>
+        <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:"0 0 12px"}}>名前とタイプを入力してメンバーを追加（最大8名）</p>
         <div style={{display:"flex",gap:8,marginBottom:12,alignItems:"center"}}>
           <input value={nameInput} onChange={function(e){setNameInput(e.target.value);}}
             onKeyDown={function(e){if(e.key==="Enter"&&typeInput)addMember();}}
@@ -1867,7 +1867,7 @@ function App() {
         {/* Type Selection (always visible in analysis tab) */}
         {tab === "analysis" ? (
           <div style={{marginBottom:16}}>
-            <TypeGrid value={type} onChange={setType} label="あなたのMBTIタイプを選択" />
+            <TypeGrid value={type} onChange={setType} label="あなたのタイプを選択" />
           </div>
         ) : null}
       </div>
@@ -1884,7 +1884,7 @@ function App() {
       {/* Footer */}
       <div style={{textAlign:"center",padding:"20px 0 30px",position:"relative",zIndex:1}}>
         <div style={{width:40,height:1,background:S.border,margin:"0 auto 10px"}} />
-        <p style={{fontFamily:F.h,fontSize:8,color:S.dm+"80",letterSpacing:"0.12em"}}>MBTI DEEP DIVE — Personality Analytics</p>
+        <p style={{fontFamily:F.h,fontSize:8,color:S.dm+"80",letterSpacing:"0.12em"}}>PERSONALITY ANALYTICS</p>
       </div>
     </div>
   );
