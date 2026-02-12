@@ -691,8 +691,8 @@ function DimBar({left,right,value,leftColor,rightColor}) {
   return (
     <div style={{marginBottom:10}}>
       <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-        <span style={{fontFamily:F.b,fontSize:10,color:isLeft?leftColor:S.dm,fontWeight:isLeft?700:400}}>{left} {isLeft?Math.round(100-value)+"%":""}</span>
-        <span style={{fontFamily:F.b,fontSize:10,color:!isLeft?rightColor:S.dm,fontWeight:!isLeft?700:400}}>{!isLeft?Math.round(value)+"%":""} {right}</span>
+        <span style={{fontFamily:F.b,fontSize:10,color:isLeft?leftColor:S.dm,fontWeight:isLeft?700:400}}>{left}</span>
+        <span style={{fontFamily:F.b,fontSize:10,color:!isLeft?rightColor:S.dm,fontWeight:!isLeft?700:400}}>{right}</span>
       </div>
       <div style={{height:8,borderRadius:4,background:"rgba(255,255,255,0.06)",position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",left:0,top:0,bottom:0,width:value+"%",borderRadius:4,
@@ -966,13 +966,6 @@ function AnalysisTab({type}) {
                     <span style={{fontFamily:F.b,fontSize:8,color:S.dm}}>— {role.sub}</span>
                   </div>
                 </div>
-              </div>
-              {/* Strength bar */}
-              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-                <div style={{flex:1,height:6,borderRadius:3,background:"rgba(255,255,255,0.06)"}}>
-                  <div style={{width:role.bar+"%",height:6,borderRadius:3,background:"linear-gradient(90deg,"+info.c+","+info.c+"88)",transition:"width 0.8s ease"}} />
-                </div>
-                <span style={{fontFamily:F.h,fontSize:9,color:info.c,fontWeight:700,flexShrink:0}}>{role.bar}%</span>
               </div>
               <p style={{fontFamily:F.b,fontSize:10,color:S.tx,lineHeight:1.7,margin:0}}>{info.d}</p>
             </div>
