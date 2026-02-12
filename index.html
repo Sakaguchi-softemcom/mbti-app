@@ -162,6 +162,57 @@ const ECO = {ES:{l:"リア充アクティブ派",i:"🏖️",c:"#f97316",d:"フ�
 const SR = {FP:{l:"価値観ファイター",i:"🎯",c:"#ec4899",d:"自分の価値観と自由を最優先に据える。本質を見抜く直感力があり、嘘や偽りを本能的に見破る。",m:"「それ本当に必要？」と核心を突く。無駄を削ぎ落とし本当に大切なものを浮かび上がらせる。"},FJ:{l:"調和のガーディアン",i:"🤝",c:"#0ea5e9",d:"場の雰囲気を守る調整役。対立を感知すると自然と間に入り、全員が納得する落とし所を見つける。",m:"全員の意見を引き出し、優先順位をつけてまとめ上げる。会議の空気を読むプロ。"},TP:{l:"論理の切れ者",i:"🐺",c:"#f43f5e",d:"合理性を追求する鋭い思考の持ち主。無駄を嫌い、最短ルートで核心にたどり着く。",m:"「で、結論は？」会議のムダを省き、論理の穴を瞬時に指摘。問題解決のスピードが段違い。"},TJ:{l:"目標達成マシーン",i:"⚙️",c:"#64748b",d:"効率と結果を重視し、計画を立て規律を守る。ゴールから逆算して行動する戦略的実行者。",m:"アジェンダ設定、時間管理、ネクストアクションの明確化。会議を成果に直結させる。"}};
 const LS = {EJ:{l:"目的達成の推進者",i:"🏆",c:"#eab308",d:"「やると決めたことは必ずやる」が信条。目標に向かって周囲を巻き込む強力な推進力を持つ。",mt:"「決めたらやる。言い訳は聞かない」"},IJ:{l:"確実な道筋の設計者",i:"🗺️",c:"#0891b2",d:"綿密な計画と内面の強さで、確実にゴールにたどり着く。派手さはないが信頼性は抜群。",mt:"「準備がすべて。備えあれば憂いなし」"},EP:{l:"自由な冒険者",i:"🎲",c:"#d946ef",d:"人生の選択は自分で決める。型にはまらない生き方を貫き、予定調和を嫌う自由な精神の持ち主。",mt:"「後悔だけはしたくない。やらない後悔よりやる後悔」"},IP:{l:"静かなる求道者",i:"🧘",c:"#059669",d:"自分の内なる声に従い、信念を貫く。外からの評価より自分自身が納得できるかを重視する。",mt:"「自分に嘘をつかない。それだけは譲れない」"}};
 const TAL = {NJ:{l:"パーフェクト型",i:"💎",c:"#7c3aed",s:"高い目標を掲げ、カリスマ性と計画力で組織を牽引する。ビジョンを現実に変える実行力が強み。",sp:"未来予測 — まだ誰も見ていない可能性を先取りする直感力"},SJ:{l:"ディテール型",i:"🔍",c:"#0284c7",s:"現実的で几帳面。ルールとの整合性を保ちながら、コツコツと信頼を積み上げていく堅実さが武器。",sp:"ミス発見 — 他の誰もが見落とす小さなズレを確実に捕捉する眼力"},NP:{l:"イノベーション型",i:"💡",c:"#ea580c",s:"好奇心旺盛で変化を楽しむ。退屈を最も恐れ、常に新しい可能性を追求し続けるイノベーター。",sp:"発想転換 — 行き詰まった状況で全く新しい切り口を見出す閃き"},SP:{l:"パフォーマンス型",i:"⚡",c:"#dc2626",s:"圧倒的な行動力と現実への適応力。瞬間的な判断と実行のスピードで他を圧倒する。",sp:"瞬間対応 — 予想外の事態に即座に反応し最適な行動を取る反射神経"}};
+/* ═══════════════════════════════════════════════
+   ソシオニクス タイプ間関係 (Intertype Relations)
+   ═══════════════════════════════════════════════ */
+var MBTI_TO_SOC = {
+  ENTP:"ILE",ESFJ:"ESE",ENFJ:"EIE",ESTP:"SLE",ESFP:"SEE",ENTJ:"LIE",ESTJ:"LSE",ENFP:"IEE",
+  ISFJ:"SEI",INTP:"LII",ISTP:"LSI",INFJ:"IEI",INTJ:"ILI",ISFP:"ESI",ISTJ:"SLI",INFP:"EII"
+};
+var SOC_FS = {
+  ILE:["Ne","Ti","Se","Fi","Si","Fe","Ni","Te"],SEI:["Si","Fe","Ni","Te","Ne","Ti","Se","Fi"],
+  ESE:["Fe","Si","Te","Ni","Ti","Ne","Fi","Se"],LII:["Ti","Ne","Fi","Se","Fe","Si","Te","Ni"],
+  EIE:["Fe","Ni","Te","Si","Ti","Se","Fi","Ne"],LSI:["Ti","Se","Fi","Ne","Fe","Ni","Te","Si"],
+  SLE:["Se","Ti","Ne","Fi","Ni","Fe","Si","Te"],IEI:["Ni","Fe","Si","Te","Se","Ti","Ne","Fi"],
+  SEE:["Se","Fi","Ne","Ti","Ni","Te","Si","Fe"],ILI:["Ni","Te","Si","Fe","Se","Fi","Ne","Ti"],
+  LIE:["Te","Ni","Fe","Si","Fi","Se","Ti","Ne"],ESI:["Fi","Se","Ti","Ne","Te","Ni","Fe","Si"],
+  IEE:["Ne","Fi","Se","Ti","Si","Te","Ni","Fe"],SLI:["Si","Te","Ni","Fe","Ne","Fi","Se","Ti"],
+  LSE:["Te","Si","Fe","Ni","Fi","Ne","Ti","Se"],EII:["Fi","Ne","Ti","Se","Te","Si","Fe","Ni"]
+};
+
+function getITRelation(m1,m2){
+  var p=((m1[0]!==m2[0])?1:0)+""+((m1[1]!==m2[1])?1:0)+""+((m1[2]!==m2[2])?1:0)+""+((m1[3]!==m2[3])?1:0);
+  switch(p){
+    case"0000":return"同一";case"1111":return"双対";case"1000":return"鏡像";case"0001":return"準同一";
+    case"1001":return"消滅";case"0111":return"活性化";case"1110":return"衝突";case"1101":return"準双対";
+    case"0010":return"同属";case"0100":return"共鳴";case"0110":return"超自我";case"1011":return"幻影";
+    case"0011":case"0101":return _itBen(m1,m2);
+    case"1010":case"1100":return _itSup(m1,m2);
+    default:return"不明";
+  }
+}
+function _itSup(a,b){var s1=SOC_FS[MBTI_TO_SOC[a]],s2=SOC_FS[MBTI_TO_SOC[b]];if(s1[0]===s2[3])return"監督する";if(s2[0]===s1[3])return"被監督";return"監督する";}
+function _itBen(a,b){var s1=SOC_FS[MBTI_TO_SOC[a]],s2=SOC_FS[MBTI_TO_SOC[b]];if(s1[1]===s2[4])return"恩恵を与える";if(s2[1]===s1[4])return"恩恵を受ける";return"恩恵を与える";}
+
+var IT_META = {
+  "同一":{en:"Identity",emoji:"🪞",score:3,color:"#6B7280",desc:"同じタイプ同士。深く理解し合えるが新たな刺激に欠ける"},
+  "双対":{en:"Duality",emoji:"💎",score:5,color:"#2563EB",desc:"最高の補完関係。互いの弱点を自然にカバーし合う黄金ペア"},
+  "活性化":{en:"Activation",emoji:"⚡",score:4,color:"#F59E0B",desc:"一緒にいると刺激的でエネルギーが溢れる活発な関係"},
+  "鏡像":{en:"Mirror",emoji:"🔄",score:4,color:"#8B5CF6",desc:"似た思考回路だが視点が逆。深い対話と相互理解が生まれる"},
+  "同属":{en:"Kindred",emoji:"🤝",score:3,color:"#10B981",desc:"似た世界観で居心地が良い。ただし成長の刺激は少なめ"},
+  "準双対":{en:"Semi-dual",emoji:"💫",score:3,color:"#3B82F6",desc:"双対に近い心地よさがあるが、わずかなすれ違いも"},
+  "幻影":{en:"Mirage",emoji:"🌙",score:3,color:"#A78BFA",desc:"心地よいが期待とのギャップが生じやすい幻想的な関係"},
+  "共鳴":{en:"Business",emoji:"💼",score:3,color:"#64748B",desc:"ビジネスライクに協力できるが深い絆にはなりにくい"},
+  "準同一":{en:"Quasi-id",emoji:"👥",score:2,color:"#9CA3AF",desc:"表面的に似ているが本質的に異なり、すれ違いやすい"},
+  "消滅":{en:"Extinguish",emoji:"🌫️",score:2,color:"#94A3B8",desc:"互いの存在感を薄め合い、影響を打ち消し合う"},
+  "超自我":{en:"Super-ego",emoji:"⚔️",score:2,color:"#EF4444",desc:"互いの弱点を刺激し合う。尊敬はするが疲れやすい"},
+  "衝突":{en:"Conflict",emoji:"💥",score:1,color:"#DC2626",desc:"最も困難な関係。理解し合うこと自体が難しい"},
+  "監督する":{en:"Supervisor",emoji:"👆",score:2,color:"#D97706",desc:"相手を導く立場。無意識にプレッシャーを与えがち"},
+  "被監督":{en:"Supervisee",emoji:"👇",score:2,color:"#D97706",desc:"導かれる立場。窮屈さやプレッシャーを感じやすい"},
+  "恩恵を与える":{en:"Benefactor",emoji:"🎁",score:3,color:"#059669",desc:"自然と相手を助ける。ただし善意が伝わりにくいことも"},
+  "恩恵を受ける":{en:"Beneficiary",emoji:"🙏",score:3,color:"#059669",desc:"恩恵を受ける立場。感謝しつつ依存に注意が必要"}
+};
+
 /* --- Helper: get keys --- */
 function gk(t) {
   if (!t) return {};
@@ -557,6 +608,8 @@ function InfoGrid({items,columns}) {
 function CompatResult({data,t1,t2,mode}) {
   if (!data) return null;
   var isLove = mode === "love";
+  var itRel = getITRelation(t1, t2);
+  var itMeta = IT_META[itRel];
   return (
     <div style={{animation:"fadeUp 0.5s ease both"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:16,margin:"16px 0"}}>
@@ -566,6 +619,20 @@ function CompatResult({data,t1,t2,mode}) {
           <span style={{fontFamily:F.h,fontSize:10,color:S.dm,marginTop:2}}>{isLove?"Love":"Work"}</span>
         </div>
         <Avatar type={t2} size={64} />
+      </div>
+      {/* Socionics Relation Badge */}
+      <div style={{display:"flex",justifyContent:"center",marginBottom:12}}>
+        <div style={{
+          display:"inline-flex",alignItems:"center",gap:8,padding:"8px 16px",borderRadius:20,
+          background:itMeta.color+"12",border:"1px solid "+itMeta.color+"30",
+          boxShadow:"0 0 16px "+itMeta.color+"15"
+        }}>
+          <span style={{fontSize:18}}>{itMeta.emoji}</span>
+          <div>
+            <p style={{fontFamily:F.b,fontSize:11,color:itMeta.color,fontWeight:700,margin:0}}>{itRel}<span style={{fontFamily:F.h,fontSize:9,color:itMeta.color+"aa",fontWeight:500,marginLeft:6}}>{itMeta.en}</span></p>
+            <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:0}}>{"★".repeat(itMeta.score)+"☆".repeat(5-itMeta.score)} ソシオニクス相性</p>
+          </div>
+        </div>
       </div>
       <div style={{display:"flex",justifyContent:"center",marginBottom:16}}>
         <ScoreRing score={data.score} size={110} label={isLove?"恋愛相性スコア":"仕事相性スコア"} />
@@ -893,9 +960,413 @@ function WorkTab({type}) {
   );
 }
 
+
+/* ═══════════════════════════════════════════════
+   TAB: 相関図 (Correlation Diagram) — 16types.studio style
+   ═══════════════════════════════════════════════ */
+
+/* --- Relationship labels (all from 16types.studio i18n relationshipLabels, casual display versions) --- */
+var REL_LABELS = [
+  {label:"沼りそう",color:"#ec4899"},{label:"ちょっと好き",color:"#a855f7"},
+  {label:"相棒",color:"#3b82f6"},{label:"ライバル",color:"#f97316"},
+  {label:"尊敬してる",color:"#22c55e"},{label:"気になる存在",color:"#06b6d4"},
+  {label:"ドキドキ",color:"#FF6B9D"},{label:"波長合う",color:"#4A9EFF"},
+  {label:"戦友",color:"#FF8C42"},{label:"安心感",color:"#33a474"},
+  {label:"憧れ",color:"#FFB6C1"},{label:"刺激的",color:"#FF5757"},
+  {label:"頼れる",color:"#4A9E9E"},{label:"謎",color:"#8B7FB8"},
+  {label:"不思議",color:"#B8A8E0"},{label:"守りたい",color:"#FFA5C4"},
+  {label:"恋愛で最高",color:"#ec4899"},{label:"仕事で良好",color:"#3b82f6"},
+  {label:"親友の予感",color:"#a855f7"},{label:"恋の予感",color:"#FF6B9D"},
+  {label:"まずは友達から",color:"#FFB84D"},{label:"運命的な出会い",color:"#9747FF"},
+  {label:"尊敬し合える仲",color:"#22c55e"},{label:"刺激し合える関係",color:"#FF5757"}
+];
+
+/* --- Group description templates (6 per type, varied & fun) --- */
+var GRP_DESC = {
+  ENFP:["自由な発想と情熱が特徴の{name}は、このグループで雰囲気をあたたかくし、新しい可能性を次々に見つける魅力を発揮しています。","「それ面白いじゃん！」が口癖の{name}。このグループのアイデア発火装置として、みんなの創造力に火をつけています。","気づけばみんなが{name}の話に引き込まれている——そんな不思議な求心力がこのグループの空気を変えています。","{name}がいると「なんとかなりそう」感が2割増しになります。根拠はないけど、不思議と信じたくなるポジティブパワーの持ち主。","突拍子もないことを言い出すかと思えば、ちゃんと人の気持ちを見ている{name}。このグループの「自由だけど優しい風」です。","計画通りにいかなくても{name}だけは楽しそう。その姿がグループの「まあいっか精神」を支えています。"],
+  INTJ:["洞察力と戦略性が特徴の{name}は、このグループで物事の本質を整理し、長期的な道筋を示す魅力を発揮しています。","黙って考えているように見えて、実は3手先まで読んでいる{name}。このグループの影の参謀です。","{name}の「それ、本当に必要？」という一言で、議論が一気に整理されることがあります。無駄を削ぎ落とす天才。","静かに話し始めた{name}の言葉に、なぜかみんな耳を傾けてしまう。少ない言葉で核心を突く力がこのグループの羅針盤。","{name}は表情が読みにくいけれど、実はこのグループのことをよく観察しています。信頼は行動で示すタイプ。","完璧を求めすぎて疲れていないか、ちょっと心配になる{name}。でもその緻密さがグループの品質を支えているのも事実。"],
+  INTP:["論理性と好奇心が特徴の{name}は、このグループで新しい発見を促し、深い洞察を提供する魅力を発揮しています。","「なんで？」「でもそれって…」と問いを重ねる{name}。面倒に思えて、実はグループの思考レベルを引き上げています。","{name}の頭の中は小さな宇宙。突然飛び出す独自の視点に、みんなが「そういう見方もあるのか」とハッとさせられます。","普段は省エネモードの{name}が、好きなテーマになると急にギアが上がる。そのギャップがこのグループの隠し味。","このグループで一番「面白がる力」が強いのは{name}かもしれません。知的好奇心の塊が、退屈を許しません。","{name}が沈黙しているときは要注意——だいたい、とんでもないアイデアが発酵中です。"],
+  ENTJ:["リーダーシップと決断力が特徴の{name}は、このグループで方向性を示し、目標達成へと導く魅力を発揮しています。","「で、結局どうする？」と切り込む{name}。このグループが迷子にならずに済んでいるのは、だいたいこの人のおかげ。","{name}の前では言い訳が通用しない。でもその厳しさの裏にある「みんなならできる」という信頼を、グループは感じています。","走り出したら止まらない{name}。その勢いに最初は驚くけれど、気づけばみんな同じ方向を向いている。天性のリーダー。","{name}が「任せて」と言ったら、本当に任せて大丈夫。このグループの安心感の土台を作っている人です。","実は誰よりもグループの成功を願っている{name}。表面的な厳しさの奥にある情熱を、みんなが少しずつ気づき始めています。"],
+  ENTP:["創造性と議論好きな性格が特徴の{name}は、このグループで新しい可能性を探り、刺激的な対話を生む魅力を発揮しています。","あえて「逆のこと」を言って場をかき混ぜる{name}。でも不思議と、そのあと議論が深まる。天然のファシリテーター。","{name}の思いつきの半分は暴走、でも残りの半分は天才。このグループのイノベーション担当です。","退屈な空気を3秒で壊せるのが{name}の才能。真面目一辺倒になりそうなとき、いい意味で脱線させてくれます。","{name}が「ちょっと思ったんだけど」と言い出したら、会議は予定の3倍長くなる。でもその分、面白くなる。","ふざけているようで、ちゃんと全体を見ている{name}。このグループの「笑いと知恵のハイブリッド」です。"],
+  INFJ:["共感力と洞察力が特徴の{name}は、このグループで深い理解を示し、調和をもたらす魅力を発揮しています。","言葉にする前に察してくれる{name}。このグループの「心のセンサー」として、誰かが辛いときにそっと寄り添っています。","{name}は静かだけど、実は一番みんなのことを考えている人。その深い思いやりが、グループのセーフティネットです。","「なぜかこの人には本音を話せる」——{name}にそう感じているメンバーは、きっと一人じゃないはず。","{name}が大事にしている理想やビジョンは、表に出さなくてもグループに静かな影響を与えています。灯台のような存在。","誰かの言葉の裏にある感情を読み取って、さりげなくフォローを入れる{name}。このグループの空気清浄機みたいな人。"],
+  INFP:["優しさと創造性が特徴の{name}は、このグループで温かい雰囲気を作り、独自の視点を提供する魅力を発揮しています。","{name}が静かに微笑んでいるだけで、なぜかその場が丸くなる。このグループの「癒しの磁場」を作っている人。","表面上は控えめだけど、実は一番芯が強いかもしれない{name}。大切なことに対する姿勢は誰よりもまっすぐ。","{name}の感想は、いつも少し遅れてやってくる。でもその分、深くて温かい。このグループの「余韻」を担当しています。","「別にいいよ」と譲りつつ、実はちゃんと自分の中に答えを持っている{name}。その静かな信念がグループの芯になっています。","{name}が「いいね」と言ってくれると、他の誰に褒められるより嬉しかったりする。この人の承認には不思議な重みがあります。"],
+  ENFJ:["カリスマ性と思いやりが特徴の{name}は、このグループで人を励まし、一体感を生み出す魅力を発揮しています。","「みんなどう？」が口癖の{name}。このグループの温度を常にチェックして、誰も置いていかない優しいリーダー。","{name}がいると、不思議とグループの連帯感が増す。見えない糸でみんなを結びつけるような存在です。","一人ひとりの良いところを見つけて、それを本人にちゃんと伝える{name}。このグループのモチベーション管理は{name}のおかげ。","{name}は頑張りすぎて疲れていることがある。でも「大丈夫？」と聞くと「うん、大丈夫」と笑う。そういうところが心配で、好き。","場の空気を読みすぎて我慢しているとき、{name}はある。でもその気遣いが、グループ全体の快適さを守っているのです。"],
+  ISTJ:["誠実さと実務力が特徴の{name}は、このグループで安定感をもたらし、計画を着実に形にする魅力を発揮しています。","派手さはないけど{name}がいないとこのグループは回らない。地味に見えて、実は最重要人物。","約束の時間に絶対遅れない{name}。その「当たり前をちゃんとやる姿勢」が、このグループの信頼の土台を作っています。","{name}に「大丈夫」と言われると、本当に大丈夫な気がする。裏付けのある安心感を提供してくれる、頼れる存在。","真面目一直線に見えて、実はツボが浅い{name}。ふとした瞬間に見せる笑顔にグループがほっこりしています。","誰かが雑にやった仕事を、黙って直している{name}。その気遣いに気づいている人は、ちゃんといます。感謝。"],
+  ISFJ:["献身性と細やかな気配りが特徴の{name}は、このグループで安心感を提供し、サポート役として活躍する魅力を発揮しています。","このグループで一番「ありがとう」を言われるべき人は{name}です。縁の下で静かに支え続けるその姿勢に頭が下がります。","{name}が持ってきたお菓子や、さりげなく入れてくれたお茶。そういう小さなケアがグループの幸福度を爆上げしています。","「大変だったね」と真っ先に声をかけてくれるのは、いつも{name}。このグループの心のお医者さんです。","{name}は自分のことは後回しにしがち。でもその優しさに報いたいと、みんな密かに思っているはず。","記憶力がいい{name}は、誰が何を好きで何が苦手か全部覚えている。このグループの生きたデータベースです。"],
+  ESTJ:["組織力と実行力が特徴の{name}は、このグループで秩序を保ち、効率的に目標を達成する魅力を発揮しています。","「いつまでに誰がやる？」を明確にしてくれる{name}。このグループが前に進めるのは、この仕切り力のおかげ。","{name}のツッコミは鋭いけど愛がある。厳しく見えて、実はグループのために一番考えてくれている人。","ルールは守る、期限は守る、約束は守る。{name}の「当たり前力」がこのグループの信用を支えています。","たまに{name}がボソッと言うギャグが面白すぎる。普段のギャップがこのグループのスパイスになっています。","{name}がOKを出したら、それはもう安心して前に進めていいサイン。このグループの品質保証マークです。"],
+  ESFJ:["社交性と思いやりが特徴の{name}は、このグループで温かい雰囲気を作り、皆をつなぐ魅力を発揮しています。","「最近どう？元気？」の一言を欠かさない{name}。このグループの人間関係を陰で支えている調整役。","{name}がいるだけで場が明るくなる。でもそれは天然じゃなくて、ちゃんと配慮した結果なんです。","誕生日もイベントも絶対忘れない{name}。このグループの「記念日管理大臣」兼「おもてなし番長」。","{name}は人のために頑張りすぎることがある。だからたまには{name}のために何かしたい——とグループは思っています。","ケンカが起きそうな時に、さりげなく話題を変えて空気を和ませる{name}。このグループの平和維持軍です。"],
+  ISTP:["実用性と冷静さが特徴の{name}は、このグループで問題を素早く解決し、技術的な視点をもたらす魅力を発揮しています。","いざというとき頼りになるのは{name}。普段は静かだけど、問題が起きた瞬間にスイッチが入る頼もしい存在。","「考えるより先に手が動いてた」——そんなタイプの{name}が、このグループの実行スピードを支えています。","{name}の「別に」には3種類ある。本当にどうでもいい時、照れている時、そして深く考えている時。見極めが楽しい。","みんなが「どうしよう」と慌てている時に、{name}だけ冷静に解決策を出してくる。このグループのトラブルシューター。","口数は少ないけど、{name}が頷いてくれると安心する。「分かってる人が同意してくれた」という心強さがあります。"],
+  ISFP:["芸術性と優しさが特徴の{name}は、このグループで独自の感性を示し、穏やかな雰囲気を作る魅力を発揮しています。","{name}のセンスは本物。選ぶもの、身につけるもの、全部にその人らしさが滲み出ていて、みんなが密かに参考にしています。","多くを語らないけど、{name}の表情には嘘がない。だからこのグループの中で一番「信頼できる反応」をくれる人。","{name}と一緒にいると、無理に何か話さなくても心地いい。「居てくれるだけでいい」を体現する存在。","静かに見えて、実は好きなものへの情熱がすごい{name}。その「好き」を語るときの表情が、このグループで一番いい顔。","{name}は争いを好まないけど、大事なことに対してはそっと、でもはっきり意見を言う。その静かな強さがグループの良心です。"],
+  ESTP:["行動力と瞬発力が特徴の{name}は、このグループでスピード感をもたらし、現場を力強く推進する魅力を発揮しています。","「とりあえずやってみようぜ！」の{name}がいなかったら、このグループは永遠に計画だけで終わっていたかも。","{name}のフットワークの軽さは異常。思い立ったら即行動で、グループ全体のテンポを爆速にしてくれます。","ピンチに強すぎる{name}。むしろ困難を楽しんでいるフシがある。その姿を見て、みんなも「なんとかなるか」と思えます。","真面目な話をしている最中に{name}が空気を壊してくる。でもそのおかげで、硬くなりすぎずに済んでいるのも事実。","{name}の「大丈夫大丈夫」には根拠がないけど、不思議と信じたくなる。このグループの元気の源です。"],
+  ESFP:["社交性とエネルギーが特徴の{name}は、このグループで楽しい雰囲気を作り、皆を元気づける魅力を発揮しています。","{name}がいるだけでイベント感が出る。普通の集まりが「今日楽しかったね」に変わるのは、この人のおかげ。","テンション上げたいときの特効薬、それが{name}。このグループの公式ムードメーカーに認定されています。","{name}は人の良いところを見つける天才。「それいいじゃん！」の一言で、何人のメンバーが救われたことか。","実はめちゃくちゃ人の空気を読んでいる{name}。楽しそうに見えて、実は周りのことをよく見ている繊細な一面も。","このグループの写真フォルダは、だいたい{name}が撮ったもので埋まっている。思い出を残す名人です。"]
+};
+
+/* --- Secret thought templates keyed by TARGET's MBTI (exact 16types.studio n object) --- */
+var SECRET_BY_TYPE = {
+  ENFP:["【A】は、ENFPの【B】の「ふいに核心を突く直感力」に実は驚かされています。説明してないのに察してくる瞬間があり、思わず「なぜ分かった？」と心の中で思っています。","【A】は、ENFPの【B】の「自由なのに気遣いが絶妙なところ」が実は気になっています。ふざけているようで周りをちゃんと見ている姿に、安心と不思議さが混ざった感情を抱きます。","【A】は、ENFPの【B】の「勢いだけじゃない繊細さ」に実は気づいています。テンションの裏にある優しさや直感の鋭さを感じると、思わず深掘りしてみたくなります。","【A】は、ENFPの【B】の「どんな話題もポジティブに変換してしまう力」に助けられています。落ち込みそうな空気を、いつの間にか「まあ何とかなるよね」に変えてくれる姿に、心の中で何度も救われています。","【A】は、ENFPの【B】の「人に興味を持ちすぎるくらい持ってくれるところ」に少し照れながらも嬉しくなっています。自分の小さな一言まで覚えていてくれるのを感じると、「こんなに見てくれてるんだ」と温かい気持ちになります。","【A】は、ENFPの【B】の「突然の思いつきから本当に物事を動かしてしまう行動力」に密かに感心しています。冗談みたいなアイデアがいつの間にか現実になっていて、「この人のノリは侮れない」と思っています。"],
+  ENFJ:["【A】は、ENFJの【B】の「みんなの気持ちを先回りして動いてくれるところ」に、実はかなり甘えています。【B】が場を整えてくれるおかげで、「自分は好きにしゃべっていても大丈夫だ」と安心しています。","【A】は、ENFJの【B】の「誰に対しても温度差をつけない優しさ」にこっそり感心しています。自分なら気づかない小さな変化にも寄り添う姿を見て、「すごいな」と静かに尊敬しています。","【A】は、ENFJの【B】の「ビジョンを感情ごと伝えてくる力」に刺激を受けています。ロジックだけでは動かない人を動かしてしまうその影響力を、「自分にはない大事な要素だ」と感じています。","【A】は、ENFJの【B】の「どれだけ忙しくても、人との約束は後回しにしないところ」に胸を打たれています。スケジュールの隙間を縫ってでも時間を作る姿に、「人を大事にするってこういうことなんだな」と感じています。","【A】は、ENFJの【B】の「ときどき見せる弱音や本音」に、むしろ親近感を覚えています。いつも頼れる【B】がふっと力を抜く瞬間に、「この人を支える側にも回りたい」とひそかに思っています。","【A】は、ENFJの【B】の「場の空気を読みながら、難しい話もやわらかく伝えるセンス」に見惚れています。角が立ちそうな話も、なぜかみんな納得してしまう様子を見て、「天性の調整役だ」と感じています。"],
+  ENTJ:["【A】は、ENTJの【B】の「サクッと決めてサクッと動くリーダーシップ」に密かにときめいています。多少強引でも前に進めてくれるその感じに、「この人について行ったらおもしろそう」とワクワクしています。","【A】は、ENTJの【B】の「判断基準がブレないところ」に安心感を覚えています。たとえ厳しく見えても、言っていることとやっていることが一致しているので、「信用できる」と感じています。","【A】は、ENTJの【B】の「勝負どころを逃さない嗅覚」に実は憧れています。ノリだけで動くのではなく、ちゃんと計算した上で攻めに転じる姿に「かっこいいな」と思っています。","【A】は、ENTJの【B】の「失敗を分析材料にして、次の一手に変えてしまう切り替えの速さ」に驚かされています。落ち込む暇もなく前を見ている姿に、「この人の時間は常に未来に向いている」と感じています。","【A】は、ENTJの【B】の「大きな絵を描きながら、細部の詰めも怠らないところ」に圧倒されています。ざっくりしているだけのリーダーではなく、「本当に全部見えているんだな」と実感しています。","【A】は、ENTJの【B】の「本気で取り組んでいる人に対しては、想像以上に面倒見がいいところ」に密かに気づいています。信じた相手に対しての深い思いやりと真剣な導きの力に、密かに憧れています。"],
+  ENTP:["【A】は、ENTPの【B】の「その場でどんどんアイデアをひっくり返してくる頭の回転」にワクワクしています。自分の発言を面白がりながら広げてくれるので、「この人と話すと発想が解放される」と感じています。","【A】は、ENTPの【B】の「あえて逆張りすることで議論を深めるスタイル」を内心ありがたく思っています。面倒そうに見えて、本質をあぶり出す役割を果たしてくれていると感じ、「良いスパイスだ」と思っています。","【A】は、ENTPの【B】の「どんなテーマも笑いに変えてしまうところ」にかなり助けられています。場が重くなりそうな時でも、サラッと空気を変えてくれるので、「いてくれてよかった」と感じています。","【A】は、ENTPの【B】の「議論の最中でも、相手の感情のラインはちゃんと踏み越えない絶妙なさじ加減」に感心しています。ギリギリを攻めているようでいて、本当には壊さないバランス感覚に、「意外とやさしいんだな」と思っています。","【A】は、ENTPの【B】の「退屈そうに見えた会議を一瞬でブレスト大会に変えてしまう力」に感謝しています。予定調和を壊してくれるおかげで、「この場から何か生まれるかも」と感じられるようになります。","【A】は、ENTPの【B】の「興味を持ったときには異様な集中力で情報を集めてくるところ」に驚いています。さっきまでふざけていたのに、気づけば誰よりも詳しくなっていて、「この人の本気スイッチは怖い」と感じています。"],
+  ESFP:["【A】は、ESFPの【B】の「今この瞬間を全力で楽しむ才能」に惹かれています。一緒にいると、自分まで「まあいっか」と肩の力が抜けていくのを感じて、また会いたくなります。","【A】は、ESFPの【B】の「初対面でも距離を一気に縮める明るさ」に実は助けられています。自分では話しかけづらい人とも自然に繋いでくれるので、「社交の窓口みたいな存在だ」と感じています。","【A】は、ESFPの【B】の「難しい話も体感ベースで理解しようとする姿勢」を面白く感じています。抽象的な話を「で、具体的には？」と現場に落としてくれるので、議論が現実的になると感じています。","【A】は、ESFPの【B】の「ちょっとした出来事もイベント級に盛り上げてくれるところ」に密かに感謝しています。単なる飲み会や雑談が、気づけば思い出になる感じに、「この人の場づくりってすごい」と感じています。","【A】は、ESFPの【B】の「人のいいところを見つけて、自然なノリで褒めてくれるところ」に救われています。照れくさいけれど、その一言で、その日一日が少し明るくなるのを感じています。","【A】は、ESFPの【B】の「実は人の空気の変化にとても敏感なところ」に気づいています。誰かのテンションが落ちた瞬間に、さりげなく話題を変えたり、いじられ役を買って出たりする姿に、「優しいな」と思っています。"],
+  ESFJ:["【A】は、ESFJの【B】の「みんなのコンディションをさりげなく気にかけてくれるところ」に安心しています。何も言わなくても飲み物を勧めてくれたり、話を振ってくれたりする優しさに、「本当にありがたいな」と感じています。","【A】は、ESFJの【B】の「ルールと優しさのバランス感覚」に信頼を寄せています。きちんとすべきところはきちんとしつつ、誰も傷つけないように配慮する姿を見て、「任せて大丈夫な人だ」と思っています。","【A】は、ESFJの【B】の「全員を輪の中に入れようとするところ」に少し照れつつも感謝しています。自分が雑に振る舞っても、さりげなくフォローしてくれるので、「裏でめちゃくちゃ支えてもらってる」と感じています。","【A】は、ESFJの【B】の「忘れがちな記念日や節目をちゃんと覚えていてくれるところ」に心を打たれています。自分が流してしまいそうな日を丁寧に扱ってくれる姿に、「この人といると人生の密度が上がる」と感じています。","【A】は、ESFJの【B】の「自分の大変さをあまり表に出さないところ」が少し心配でもあります。誰かのために動きすぎているのを感じると、「たまには甘えてほしい」と密かに思っています。","【A】は、ESFJの【B】の「その場の『普通』を守りつつ、少しだけ楽しくしてくれるセンス」に助けられています。安心とワクワクがちょうど半々になる空気をつくる姿に、「場の温度管理のプロだな」と感じています。"],
+  ESTP:["【A】は、ESTPの【B】の「予測不能なノリの良さ」に密かにワクワクしています。何か起きそうな気配に弱く、「次はどんな話が飛び出すんだろう」と期待で目が輝きます。","【A】は、ESTPの【B】の「状況を即興でひっくり返す力」を密かに尊敬しています。合理性では説明できない突破力に、少しだけ羨ましさを覚えています。","【A】は、ESTPの【B】の「行動の早さとぶっちゃけた会話」にこっそり惹かれています。自分にはないリズム感があり、聞いているだけで楽しくなります。","【A】は、ESTPの【B】の「ピンチのときほどテンションが上がって、笑いながら解決していくスタイル」に驚いています。普通なら焦る場面で「おもしろくなってきたじゃん」と言えるメンタルに、「この人、タフだな」と感じています。","【A】は、ESTPの【B】の「実は守るべきところはちゃんと守っているところ」に気づいています。冗談の裏でラインを越えない感覚に、「信頼していいタイプだ」と感じています。","【A】は、ESTPの【B】の「行動しながら考えるスタイル」に惹かれています。あれこれ議論する前にサクッと試してみる姿を見て、「口より行動ってこういうことか」と感心しています。"],
+  ESTJ:["【A】は、ESTJの【B】の「言いにくいことを代わりに言ってくれる役回り」に助けられています。自分がふわっとさせがちな話を、締めるところはきっちり締めてくれるので、「ありがたいパイセン」だと感じています。","【A】は、ESTJの【B】の「段取りと指示が分かりやすいところ」に信頼を置いています。誰が何をいつまでにやるのかが明確なので、「この人がいると仕事が進む」と安心しています。","【A】は、ESTJの【B】の「勢いを現実の結果に変えてくれる実行力」に感心しています。思いつきで言った自分のアイデアを、気づいたらプロジェクトにしてくれていて、「やっぱリーダーだな」と感じています。","【A】は、ESTJの【B】の「口調は厳しくても、見ているポイントはいつもチーム全体であるところ」に気づいています。個人攻撃ではなく、全体のために言っているのが分かるので、「本当は優しい人だ」と感じています。","【A】は、ESTJの【B】の「過去の実績やデータをきちんと踏まえて判断する慎重さ」に安心しています。勢いだけではなく、「ここまで積み上げてきたから大丈夫」と言える根拠を持っているところに信頼を寄せています。","【A】は、ESTJの【B】の「たまに見せる小さなユーモア」に密かに喜んでいます。普段真面目な人から不意に出てくるボケやツッコミが、なぜか何倍もおもしろく感じられて、「このギャップはずるい」と思っています。"],
+  INFP:["【A】は、INFPの【B】の「静かだけど芯の強い価値観」に惹かれています。大声で主張はしないのに、ふとした一言に深さがにじんでいて、「もっとこの人の世界を知りたい」と感じています。","【A】は、INFPの【B】の「人の気持ちを丁寧に扱おうとする姿勢」に一目置いています。ロジックでは切り捨てられない部分を大事にしてくれるおかげで、「自分の視野が補完されている」と感じています。","【A】は、INFPの【B】の「さりげない優しさで場のトゲを丸くするところ」に救われています。ピリッとした空気のあとにふっと和ませてくれるので、「この人がいると安心する」と思っています。","【A】は、INFPの【B】の「夢や理想の話をするときだけ、目が少しキラッとする瞬間」がたまらなく好きです。普段おだやかな分、その小さな変化が印象に残り、「もっと聞きたい」と思ってしまいます。","【A】は、INFPの【B】の「表ではあまり文句を言わないのに、心の中ではちゃんと自分なりのジャッジを持っているところ」に興味を持っています。何も言わないからといって何も考えていないわけではないと感じ、「その内側の世界をのぞいてみたくなる」と思っています。","【A】は、INFPの【B】の「自分のペースを守りながらも、人の痛みには敏感に反応するところ」に尊敬の念を抱いています。無理して前に出ようとはしないのに、「ここだけは」と思う場面でそっと手を差し伸べる姿に、静かな強さを感じています。"],
+  INFJ:["【A】は、INFJの【B】の「あまり多くを語らないのにこちらの気持ちを読んでくるところ」にドキッとしています。自分でもまだ言語化できていない感情をそっと代弁されると、「なんで分かるの…？」と不思議な安心感を覚えます。","【A】は、INFJの【B】の「長期的なビジョンと人への配慮を両立させようとする姿勢」に共感しています。ただの理想論でも、ただの優しさでもない、その絶妙なバランス感覚を「希少なタイプだ」と感じています。","【A】は、INFJの【B】の「静かに場の空気を整えているところ」に気づいています。目立たないところで気を回してくれているのを感じると、「もっと感謝を言葉にしないと」と心の中で思っています。","【A】は、INFJの【B】の「人の矛盾や弱さを見ても、簡単に切り捨てないところ」に救われています。表面的には何も言わなくても、内側では理解しようとしてくれている気配に、「この人には本音を預けられる」と感じています。","【A】は、INFJの【B】の「たまにぽつりと話す『世界の見え方』の話」に強く惹かれています。みんなが気づいていない構造や背景を指し示されると、「この人はどんな景色を見て生きているんだろう」と興味が湧きます。","【A】は、INFJの【B】の「自分のことは後回しにしてでも、誰かの変化をそっと応援し続ける姿勢」に尊敬を抱いています。声高にアピールしないその支え方に、「静かな情熱ってこういうことか」と感じています。"],
+  INTJ:["【A】は、INTJの【B】の「静かに燃えている情熱」に実は興味津々です。普段クールなのに、ふと見せる深い視点やこだわりを感じると、「もっと聞きたい…」と心がそっちに向かいます。","【A】は、INTJの【B】の「静かで鋭い観察眼」に興味を持っています。自分が見落としそうな点をさらっと指摘してくれるので、内心「助かる…」と思っています。","【A】は、INTJの【B】の「感情を揺らさず本質だけを拾う姿勢」にこっそり興味があります。無駄をそぎ落とすあの冷静さが、自分にはないものとして新鮮に映ります。","【A】は、INTJの【B】の「計画が頭のなかで何通りもシミュレーションされている感じ」に圧倒されています。黙っている時間の裏側で膨大な思考が回っている気配に、「この人の頭の中、一度覗いてみたい」と感じています。","【A】は、INTJの【B】の「人に流されず、自分の基準で『これが正しい』を決めているところ」に敬意を抱いています。多数派に合わせるより、筋を通すことを選ぶ姿に、「ぶれないってかっこいい」と思っています。","【A】は、INTJの【B】の「興味を持った対象への異常なまでの掘り下げ方」に驚かされています。表にはあまり出さないのに、話し始めると専門家レベルで語り出すギャップに、「この人、実はオタク気質だ」と密かに微笑んでいます。"],
+  INTP:["【A】は、INTPの【B】の「ふとした一言にだけ鋭い真理が混ざっているところ」にツボっています。普段はゆるく見えるのに、急に核心をついてきて、「この人、本気出したらすごいんだろうな」と感じています。","【A】は、INTPの【B】の「前提から疑い直すクセ」を内心頼りにしています。当たり前のルールを壊してくれるので、「この視点があるからこそ誤った方向に走らずに済んでいる」と思っています。","【A】は、INTPの【B】の「興味のあることだけ異常な集中力を発揮するところ」に驚かされています。普段とのギャップが大きく、「スイッチ入るとこんなにすごいのか」と感心しています。","【A】は、INTPの【B】の「『なぜ？』を何度でも重ねてくるしつこさ」に、少し疲れつつも感謝しています。表面的な説明で満足しないおかげで、「本当に納得できるライン」までたどり着けていると感じています。","【A】は、INTPの【B】の「人間関係さえ頭の中ではちゃんとモデル化して観察している感じ」に気づいています。感情表現は控えめなのに、意外とよく人を見ているところに、「この人なりの優しさがある」と感じています。","【A】は、INTPの【B】の「話がときどき壮大な宇宙規模に飛んでいくところ」にクスッとしながらも魅力を感じています。すぐに日常から離陸してしまうその発想に、「こういう人が新しい概念を生むんだろうな」と思っています。"],
+  ISFP:["【A】は、ISFPの【B】の「飾らないのにセンスが滲み出ているところ」に憧れています。ファッションや持ち物、話し方の一つひとつに、その人らしい美意識を感じて「真似したくなる」と思っています。","【A】は、ISFPの【B】の「争いを好まず、そっと距離感を調整するやり方」に安心感を覚えています。無理に場を仕切ろうとせず、それでもちゃんと周りを気遣っている姿に、「優しいな」と感じています。","【A】は、ISFPの【B】の「言葉少なめなのに表情と雰囲気で全部伝わってしまうところ」が気になっています。「さっきの一言、実はすごく重みがあったよね？」と、あとからじわじわ思い返しています。","【A】は、ISFPの【B】の「好き嫌いがはっきりしているのに、わざわざそれを押しつけてこないところ」に好感を抱いています。自分の感性を大事にしながら、人の世界も尊重している姿に、「大人だな」と感じています。","【A】は、ISFPの【B】の「さりげなく空間を整えたり、小物を選んだりするセンス」に魅了されています。何気ない選択の一つひとつが、場の居心地を良くしているのを感じて、「この人の世界観ごと好きだな」と思っています。","【A】は、ISFPの【B】の「『無理に話さなくても一緒にいられる』空気をつくってくれるところ」に救われています。沈黙が気まずくならない時間を共有できると、「この人とは本当に相性がいいのかもしれない」と感じています。"],
+  ISFJ:["【A】は、ISFJの【B】の「誰よりも静かに一番働いているところ」に頭が上がりません。目立たない雑務やケアを当たり前のように引き受けてくれる姿に、「本当は一番感謝されるべき人だ」と感じています。","【A】は、ISFJの【B】の「約束と信頼をとても大事にするところ」に強く共感しています。一度引き受けたことを最後までやり切る姿を見て、「この人には安心して任せられる」と感じています。","【A】は、ISFJの【B】の「人の弱さを責めないまなざし」に救われています。うまくいかなかった話をしても否定せず受け止めてくれるので、「この人には本音を話せる」と思っています。","【A】は、ISFJの【B】の「細かい変化に気づいて、さりげないフォローを入れてくれるところ」に驚かされています。「最近疲れてない？」の一言で救われた日を思い出し、「本当に見てくれている」と感じています。","【A】は、ISFJの【B】の「自分のことより周りの状況を優先しがちなところ」を少し心配しつつも尊敬しています。誰かのために静かに時間と労力を差し出している姿に、「この人の優しさに報いたい」と思っています。","【A】は、ISFJの【B】の「控えめな中にある、芯の強さ」に感心しています。普段おだやかな分、その芯には重みがあり、「この人の価値観はちゃんと守られている」と感じています。"],
+  ISTP:["【A】は、ISTPの【B】の「必要な時だけスッと動いて結果を出すところ」にキュンとしています。余計なことは言わないのに、いざという瞬間に一番頼れる感じがして、「ヒーローみたい」と感じています。","【A】は、ISTPの【B】の「感情に飲まれず淡々と問題を分解していくスタイル」を高く評価しています。みんなが焦っている時ほど冷静さを保っている姿に、「現場のプロだな」と感じています。","【A】は、ISTPの【B】の「群れずにマイペースを貫くところ」をちょっと羨ましく思っています。空気を読みつつも必要以上に合わせない姿を見て、「自分もああなりたい」と感じています。","【A】は、ISTPの【B】の「黙って作業しているようでいて、実は一番状況を把握しているところ」に気づいています。何も言わないのに、核心だけは外さない判断に、「この人の『分かってる感』すごい」と感じています。","【A】は、ISTPの【B】の「説明よりもまず手を動かして見せるスタイル」に惹かれています。あれこれ議論する前にサクッと試してみる姿を見て、「口より行動ってこういうことか」と感心しています。","【A】は、ISTPの【B】の「感情表現は控えめなのに、困っている人にはさりげなく手を貸しているところ」にキュンとしています。照れくさそうにしながらも、必要なサポートは外さない姿に、「誠実な優しさだな」と感じています。"],
+  ISTJ:["【A】は、ISTJの【B】の「ぶれない安心感」に実は惹かれています。言葉数が少なくても、そこに滲む誠実さや優しさが気になり、つい近くに座りたくなることがあります。","【A】は、ISTJの【B】の「細部まで整える几帳面さ」に密かに安心しています。自分の計画が現実に落とし込まれていく感じが、言葉にせずとも心強く感じられます。","【A】は、ISTJの【B】の「何を任せても安心な落ち着き」に信頼を寄せています。行き当たりばったりな自分を、なぜか自然に補ってくれる存在として見ています。","【A】は、ISTJの【B】の「派手さはなくても、じわじわ効いてくる責任感」に惹かれています。その場だけ盛り上がるタイプではなく、「最後までいてくれる人」だと感じて、心の中で頼りにしています。","【A】は、ISTJの【B】の「一度決めたルールや約束を、状況が変わってもきちんと守ろうとする姿勢」に敬意を抱いています。損得勘定だけで動かないその誠実さに、「この人とは長く付き合える」と感じています。","【A】は、ISTJの【B】の「たまに見せる小さなユーモア」に密かに喜んでいます。普段真面目な人から不意に出てくるボケやツッコミが、なぜか何倍もおもしろく感じられて、「このギャップはずるい」と思っています。"]
+};
+
+/* --- Seeded PRNG r() — exact 16types.studio implementation --- */
+function _rng16t(str) {
+  var t=0, s=0;
+  for(var i=0;i<str.length;i++) s+=str.charCodeAt(i);
+  return function(){t++;var e=1e4*Math.sin(s+ ++t);return e-Math.floor(e);};
+}
+
+/* --- getRandomThought (o function) --- */
+function _getRandomThought(mbti,seed){
+  var pool=SECRET_BY_TYPE[mbti]||SECRET_BY_TYPE.ENFP;
+  if(seed){var rng=_rng16t(seed);return pool[Math.floor(rng()*pool.length)];}
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+/* --- getGroupRandomThoughts (c function) — exact logic --- */
+function _getGroupThoughts(members,seed){
+  var all=[], rng=seed?_rng16t(seed):null;
+  members.forEach(function(a){
+    members.forEach(function(b){
+      if(a.name!==b.name){
+        var tmpl=_getRandomThought(b.mbti,seed);
+        var text=tmpl.replace(/【A】/g,a.name).replace(/【B】/g,b.name);
+        all.push({thought:text,from:a.name,to:b.name,orig:tmpl});
+      }
+    });
+  });
+  /* Shuffle */
+  if(rng){for(var i=all.length-1;i>0;i--){var j=Math.floor(rng()*(i+1));var tmp=all[i];all[i]=all[j];all[j]=tmp;}}
+  else{for(var i2=all.length-1;i2>0;i2--){var j2=Math.floor(Math.random()*(i2+1));var tmp2=all[i2];all[i2]=all[j2];all[j2]=tmp2;}}
+  /* Pick 2 with unique from, to, template */
+  var result=[],usedFrom=new Set,usedTo=new Set,usedTmpl=new Set;
+  for(var k=0;k<all.length;k++){
+    if(result.length>=2) break;
+    var s=all[k];
+    if(!usedFrom.has(s.from)&&!usedTo.has(s.to)&&!usedTmpl.has(s.orig)){
+      result.push(s.thought);usedFrom.add(s.from);usedTo.add(s.to);usedTmpl.add(s.orig);
+    }
+  }
+  if(result.length<2){for(var kk=0;kk<all.length&&result.length<2;kk++){if(!usedTmpl.has(all[kk].orig)){result.push(all[kk].thought);usedTmpl.add(all[kk].orig);}}}
+  return result.slice(0,2);
+}
+
+/* --- Build directed edges (exact 16types.studio algorithm) --- */
+function buildEdges16t(members, labels) {
+  var seed = members.map(function(m){return m.mbti;}).sort().join("-");
+  var edges=[], used=new Set(), usedLabels=new Set(), inCount=new Array(members.length).fill(0);
+  var hashVal=0;
+  for(var i=0;i<seed.length;i++) hashVal=(31*hashVal+seed.charCodeAt(i))%0x7fffffff;
+  var counter=0;
+  function rng(){counter++;var e=1e4*Math.sin(hashVal+12345*counter);return e-Math.floor(e);}
+  function isReverse(f,t){return used.has(t+"-"+f);}
+  function pickLabel(){
+    var avail=labels.filter(function(l){return !usedLabels.has(l.label);});
+    if(avail.length===0) return labels[Math.floor(rng()*labels.length)];
+    return avail[Math.floor(rng()*avail.length)];
+  }
+  /* Phase 1: each person gets up to 2 incoming */
+  for(var t=0;t<members.length;t++){
+    var cands=[];
+    for(var f=0;f<members.length;f++){
+      if(f===t||isReverse(f,t)||used.has(f+"-"+t)) continue;
+      cands.push(f);
+    }
+    for(var ci=cands.length-1;ci>0;ci--){var j=Math.floor(rng()*(ci+1));var tmp=cands[ci];cands[ci]=cands[j];cands[j]=tmp;}
+    for(var ck=0;ck<cands.length&&inCount[t]<2;ck++){
+      var from=cands[ck], lbl=pickLabel();
+      edges.push({from:from,to:t,label:lbl.label,color:lbl.color});
+      used.add(from+"-"+t); usedLabels.add(lbl.label); inCount[t]++;
+    }
+  }
+  /* Phase 2: extra random edges */
+  var maxExtra=Math.min(members.length,3), extra=0;
+  for(var tt=0;tt<members.length&&extra<maxExtra;tt++){
+    for(var ff=0;ff<members.length&&extra<maxExtra;ff++){
+      if(tt===ff) continue;
+      var key=tt+"-"+ff;
+      if(used.has(key)||isReverse(tt,ff)) continue;
+      if(rng()>0.7){
+        var lb=pickLabel();
+        edges.push({from:tt,to:ff,label:lb.label,color:lb.color});
+        used.add(key); usedLabels.add(lb.label); inCount[ff]++; extra++;
+      }
+    }
+  }
+  return edges;
+}
+
+/* --- Group description with seeded variety (different template per member) --- */
+var _descUsedSet = new Set();
+function pickGroupDesc16t(m, allMembers) {
+  var pool = GRP_DESC[m.mbti] || ["独自の魅力を持つ{name}は、このグループで重要な役割を果たしています。"];
+  /* Seed from member name + all members' MBTIs for deterministic but varied selection */
+  var seed = m.name + m.mbti + (allMembers||[]).map(function(x){return x.mbti;}).sort().join("");
+  var rng = _rng16t(seed);
+  /* Try to pick unused template index */
+  var idx = Math.floor(rng() * pool.length);
+  var attempts = 0;
+  while(_descUsedSet.has(m.mbti+"-"+idx) && attempts < pool.length) {
+    idx = (idx + 1) % pool.length;
+    attempts++;
+  }
+  _descUsedSet.add(m.mbti+"-"+idx);
+  return pool[idx].replace(/{name}/g, m.name);
+}
+
+/* --- Main Correlation Tab Component --- */
+function CorrelationTab() {
+  var membersState = useState([]);
+  var members = membersState[0], setMembers = membersState[1];
+  var nameState = useState("");
+  var nameInput = nameState[0], setNameInput = nameState[1];
+  var typeState = useState("");
+  var typeInput = typeState[0], setTypeInput = typeState[1];
+  var hoveredNode = useState(null);
+  var hovered = hoveredNode[0], setHovered = hoveredNode[1];
+
+  function addMember() {
+    if (nameInput.trim() && typeInput && members.length < 8) {
+      setMembers(function(prev){ return prev.concat([{name:nameInput.trim(), mbti:typeInput, id:Date.now()}]); });
+      setNameInput(""); setTypeInput("");
+    }
+  }
+  function removeMember(id) {
+    setMembers(function(prev){ return prev.filter(function(m){return m.id!==id;}); });
+  }
+
+  /* Build edges */
+  var edges = members.length >= 2 ? buildEdges16t(members, REL_LABELS) : [];
+
+  /* Today's star = seeded by member combination (same members → same star every time) */
+  var starIdx = -1;
+  if (members.length >= 2) {
+    var starSeed = members.map(function(m){return m.name+m.mbti;}).sort().join("-");
+    var starRng = _rng16t(starSeed);
+    starIdx = Math.floor(starRng() * members.length);
+  }
+
+  /* SVG layout (matching 16types.studio: viewBox 0 0 900 900, radius 220, nodeR 50) */
+  var n = members.length;
+  var svgVB = 900, svgCx = 400, svgCy = 400, svgRadius = 280, nodeR = 50;
+  var angleStep = n > 0 ? (2 * Math.PI / n) : 0;
+  var nodePositions = members.map(function(_, idx) {
+    if (n === 2) return {x: svgCx + (idx===0?-180:180), y: svgCy};
+    return {x: svgCx + svgRadius * Math.cos(idx * angleStep - Math.PI / 2),
+            y: svgCy + svgRadius * Math.sin(idx * angleStep - Math.PI / 2)};
+  });
+
+  /* Secret thoughts */
+  var secrets = [];
+  if (members.length >= 2) {
+    var sSeed = members.map(function(m){return m.mbti;}).sort().join("-");
+    secrets = _getGroupThoughts(members, sSeed);
+  }
+
+  /* Reset desc counter */
+  _descUsedSet = new Set();
+
+  /* Scale SVG to fit container */
+  var containerW = 420;
+  var scale = containerW / svgVB;
+
+  return (
+    <div>
+      {/* Member Input */}
+      <Card title="メンバーを追加" icon="✏️" color="#8B5CF6" delay={0} large>
+        <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:"0 0 12px"}}>名前とMBTIタイプを入力してメンバーを追加（最大8名）</p>
+        <div style={{display:"flex",gap:8,marginBottom:12,alignItems:"center"}}>
+          <input value={nameInput} onChange={function(e){setNameInput(e.target.value);}}
+            onKeyDown={function(e){if(e.key==="Enter"&&typeInput)addMember();}}
+            placeholder="名前を入力"
+            style={{flex:1,padding:"10px 14px",borderRadius:12,border:"1px solid "+S.border,background:S.glass,color:S.tx,fontFamily:F.b,fontSize:12,outline:"none",transition:"border-color 0.2s"}}
+            onFocus={function(e){e.target.style.borderColor="#8B5CF6";}} onBlur={function(e){e.target.style.borderColor=S.border;}} />
+          <button onClick={addMember} disabled={!nameInput.trim()||!typeInput||members.length>=8}
+            style={{all:"unset",cursor:(!nameInput.trim()||!typeInput)?"default":"pointer",padding:"10px 18px",borderRadius:12,fontFamily:F.b,fontSize:11,fontWeight:700,
+              background:(!nameInput.trim()||!typeInput)?"rgba(255,255,255,0.03)":"linear-gradient(135deg,#8B5CF6,#6db8ff)",color:(!nameInput.trim()||!typeInput)?S.dm:"#fff",transition:"all 0.2s",letterSpacing:"0.04em"}}>追加</button>
+        </div>
+        <div style={{marginBottom:12}}>
+          <p style={{fontFamily:F.b,fontSize:9,color:S.dm,margin:"0 0 6px"}}>タイプを選択:</p>
+          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+            {GRPS.map(function(g) {
+              return (<div key={g.name}>
+                <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:3}}>
+                  <div style={{width:6,height:6,borderRadius:2,background:g.color}} />
+                  <span style={{fontFamily:F.b,fontSize:8,color:g.color,fontWeight:700}}>{g.name}</span>
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:4}}>
+                  {g.types.map(function(t) {
+                    var sel = typeInput === t;
+                    return (<button key={t} onClick={function(){setTypeInput(sel?"":t);}}
+                      style={{all:"unset",cursor:"pointer",textAlign:"center",padding:"6px 2px",borderRadius:8,
+                        background:sel?g.color+"25":S.glass,border:sel?"1.5px solid "+g.color+"70":"1px solid "+S.border,transition:"all 0.2s"}}>
+                      <span style={{fontFamily:F.h,fontSize:10,color:sel?g.color:S.dm,fontWeight:sel?700:500}}>{t}</span>
+                    </button>);
+                  })}
+                </div>
+              </div>);
+            })}
+          </div>
+        </div>
+        {members.length > 0 ? (
+          <div>
+            <Divider text={"メンバー ("+members.length+"名)"} />
+            <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+              {members.map(function(m,idx) {
+                var gc = GC[GRP[m.mbti]];
+                return (<div key={m.id} style={{display:"flex",alignItems:"center",gap:6,padding:"6px 12px",borderRadius:14,
+                  background:idx===starIdx?("linear-gradient(135deg,#fef3c7,#fde68a22)"):(gc+"12"),
+                  border:idx===starIdx?("2px dashed #fbbf24"):("1px solid "+gc+"30"),
+                  animation:"fadeUp 0.3s ease both",boxShadow:idx===starIdx?"0 0 12px rgba(251,191,36,0.2)":"none"}}>
+                  <Avatar type={m.mbti} size={22} />
+                  <span style={{fontFamily:F.b,fontSize:11,color:gc,fontWeight:700}}>{m.name}</span>
+                  <span style={{fontFamily:F.h,fontSize:9,color:gc+"99"}}>{m.mbti}</span>
+                  {idx===starIdx?<span style={{fontSize:9,background:"#fbbf24",color:"#fff",padding:"1px 6px",borderRadius:8,fontFamily:F.b,fontWeight:700,letterSpacing:"0.04em"}}>⭐ 今日の主役</span>:null}
+                  <button onClick={function(){removeMember(m.id);}} style={{all:"unset",cursor:"pointer",fontSize:12,color:S.dm,marginLeft:2,lineHeight:1,opacity:0.5}}>✕</button>
+                </div>);
+              })}
+            </div>
+          </div>
+        ) : null}
+      </Card>
+
+      {/* === Results === */}
+      {members.length >= 2 ? (
+        <div>
+          {/* Diagram */}
+          <Card title="相関図診断 結果" icon="🔮" color="#6db8ff" delay={1} large>
+            <p style={{fontFamily:F.b,fontSize:10,color:S.dm,margin:"0 0 8px",textAlign:"center"}}>人にカーソルを合わせると関係性が表示されます</p>
+            <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
+              <svg width="100%" style={{maxWidth:480,display:"block",margin:"0 auto",overflow:"visible"}} viewBox={"0 0 "+svgVB+" "+svgVB} preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  {edges.map(function(e,idx){
+                    var active = hovered===e.from||hovered===e.to;
+                    return <marker key={"mk"+idx} id={"arw"+idx} markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><polygon points="0 0, 5 2.5, 0 5" fill={active?e.color:"#94a3b8"} /></marker>;
+                  })}
+                </defs>
+
+                {/* Edge lines (path, matching 16types.studio) */}
+                {edges.map(function(e, idx) {
+                  var p1 = nodePositions[e.from], p2 = nodePositions[e.to];
+                  if(!p1||!p2)return null;
+                  var dx=p2.x-p1.x, dy=p2.y-p1.y, len=Math.sqrt(dx*dx+dy*dy)||1;
+                  var ux=dx/len, uy=dy/len;
+                  var x1=p1.x+ux*(nodeR)+50, y1=p1.y+uy*(nodeR)+50;
+                  var x2=p2.x-ux*(nodeR+15)+50, y2=p2.y-uy*(nodeR+15)+50;
+                  var active = hovered===e.from||hovered===e.to;
+                  var d = "M "+x1+" "+y1+" L "+x2+" "+y2;
+                  return (<path key={"l"+idx} d={d}
+                    stroke={active?e.color:"#e2e8f0"} strokeWidth={active?3:2}
+                    fill="none" markerEnd={"url(#arw"+idx+")"} style={{transition:"all 0.2s"}} />);
+                })}
+
+                {/* Nodes */}
+                {members.map(function(m, idx) {
+                  var pos = nodePositions[idx];
+                  var isHov = hovered === idx;
+                  var isStar = idx === starIdx;
+                  return (
+                    <g key={"n"+idx} style={{cursor:"pointer"}}
+                      onMouseEnter={function(){setHovered(idx);}} onMouseLeave={function(){setHovered(null);}}>
+                      {isHov ? <circle cx={pos.x+50} cy={pos.y+50} r={nodeR+10} fill="none" stroke="#3b82f6" strokeWidth={3} opacity={0.3} /> : null}
+                      <circle cx={pos.x+50} cy={pos.y+50} r={nodeR} fill={isHov?"#3b82f6":"#60a5fa"} style={{transition:"all 0.2s"}} />
+                      <text x={pos.x+50} y={pos.y+60} textAnchor="middle"
+                        style={{fontSize:40,fontWeight:700,fill:"#fff",fontFamily:F.b,pointerEvents:"none"}}>{m.name.charAt(0)}</text>
+                      <text x={pos.x+50} y={pos.y+82} textAnchor="middle"
+                        style={{fontSize:18,fontWeight:800,fill:"#fff",fontFamily:F.h,pointerEvents:"none"}}>{m.mbti}</text>
+                      {isStar ? (<g>
+                        <circle cx={pos.x+50} cy={pos.y+50} r={nodeR+16} fill="none" stroke="#fbbf24" strokeWidth={2.5} strokeDasharray="8 4" opacity={0.9}>
+                          <animateTransform attributeName="transform" type="rotate" from={"0 "+(pos.x+50)+" "+(pos.y+50)} to={"360 "+(pos.x+50)+" "+(pos.y+50)} dur="12s" repeatCount="indefinite" />
+                        </circle>
+                        <rect x={pos.x+5} y={pos.y-28} width={90} height={26} rx={13} fill="#fbbf24" filter="drop-shadow(0 2px 4px rgba(251,191,36,0.4))" />
+                        <text x={pos.x+50} y={pos.y-10} textAnchor="middle"
+                          style={{fontSize:12,fontWeight:800,fill:"#fff",fontFamily:F.b,pointerEvents:"none"}}>⭐ 今日の主役</text>
+                      </g>) : null}
+                      <text x={pos.x+50} y={pos.y+130} textAnchor="middle"
+                        style={{fontSize:18,fontWeight:600,fill:S.dm,fontFamily:F.b,pointerEvents:"none"}}>{m.name}</text>
+                    </g>
+                  );
+                })}
+
+                {/* Label pills (only on hover, matching 16types.studio) */}
+                <g style={{pointerEvents:"none"}}>
+                {edges.map(function(e, idx) {
+                  var p1 = nodePositions[e.from], p2 = nodePositions[e.to];
+                  if(!p1||!p2)return null;
+                  var active = hovered===e.from||hovered===e.to;
+                  if(!active) return null;
+                  var dx=p2.x-p1.x, dy=p2.y-p1.y, len=Math.sqrt(dx*dx+dy*dy)||1;
+                  var ux=dx/len, uy=dy/len;
+                  var x1=p1.x+ux*nodeR+50, y1=p1.y+uy*nodeR+50;
+                  var x2=p2.x-ux*(nodeR+15)+50, y2=p2.y-uy*(nodeR+15)+50;
+                  var mx=(x1+x2)/2+(-uy)*20, my=(y1+y2)/2+(ux)*20;
+                  return (<g key={"lb"+idx}>
+                    <rect x={mx-55} y={my-15} width={110} height={30} rx={6} fill="white" opacity={0.95} filter="drop-shadow(0 2px 6px rgba(0,0,0,0.12))" />
+                    <text x={mx} y={my+6} textAnchor="middle"
+                      style={{fontSize:18,fontWeight:700,fill:e.color,fontFamily:F.b}}>{e.label}</text>
+                  </g>);
+                })}
+                </g>
+              </svg>
+            </div>
+          </Card>
+
+          {/* Group Descriptions */}
+          <Card title="このグループの説明書" icon="📖" color="#33b98a" delay={2} large>
+            {members.map(function(m,idx) {
+              var gc = GC[GRP[m.mbti]];
+              var desc = pickGroupDesc16t(m, members);
+              return (
+                <div key={m.id} style={{marginBottom:idx<members.length-1?12:0,animation:"fadeUp 0.4s ease both",animationDelay:idx*0.08+"s"}}>
+                  <p style={{fontFamily:F.b,fontSize:13,color:gc,fontWeight:800,margin:"0 0 4px"}}>{m.name} <span style={{fontFamily:F.h,fontSize:10,fontWeight:600,color:gc+"99"}}>{m.mbti}</span></p>
+                  <p style={{fontFamily:F.b,fontSize:11,color:S.tx,lineHeight:1.9,margin:0}}>{desc}</p>
+                </div>
+              );
+            })}
+          </Card>
+
+          {/* Secret Thoughts */}
+          {secrets.length > 0 ? (
+            <Card title="ひそかに思っていること" icon="💭" color="#64748B" delay={3} large>
+              <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                {secrets.map(function(text,idx) {
+                  var dotIdx = text.indexOf("\u3002");
+                  var first = dotIdx>=0 ? text.substring(0,dotIdx+1) : text;
+                  var rest = dotIdx>=0 ? text.substring(dotIdx+1) : "";
+                  return (
+                    <p key={idx} style={{fontFamily:F.b,fontSize:11,color:S.tx,lineHeight:1.9,margin:0,animation:"fadeUp 0.4s ease both",animationDelay:idx*0.1+"s"}}>
+                      <span style={{fontWeight:700}}>{first}</span>{rest}
+                    </p>
+                  );
+                })}
+              </div>
+            </Card>
+          ) : null}
+        </div>
+      ) : (
+        <EmptyState text="2名以上のメンバーを追加すると相関図が表示されます" />
+      )}
+    </div>
+  );
+}
+
+
 /* ═══════════════════════════════════════════════
    TAB: TEAM (チーム)
    ═══════════════════════════════════════════════ */
+
 function TeamTab() {
   var membersState = useState([]);
   var members = membersState[0], setMembers = membersState[1];
@@ -998,8 +1469,6 @@ function TeamTab() {
     </div>
   );
 }
-
-/* --- Empty State --- */
 function EmptyState({text}) {
   return (
     <div style={{textAlign:"center",padding:"60px 20px"}}>
@@ -1016,6 +1485,7 @@ var TABS = [
   {id:"analysis",label:"分析",icon:"🧬",color:"#9b6dff"},
   {id:"love",label:"恋愛",icon:"💕",color:"#ec4899"},
   {id:"work",label:"仕事",icon:"💼",color:"#3b82f6"},
+  {id:"correlation",label:"相関図",icon:"🔮",color:"#8B5CF6"},
   {id:"team",label:"チーム",icon:"👥",color:"#0ea5e9"}
 ];
 
@@ -1084,6 +1554,7 @@ function App() {
         {tab === "analysis" ? <AnalysisTab type={type} /> : null}
         {tab === "love" ? <LoveTab type={type} /> : null}
         {tab === "work" ? <WorkTab type={type} /> : null}
+        {tab === "correlation" ? <CorrelationTab /> : null}
         {tab === "team" ? <TeamTab /> : null}
       </div>
 
